@@ -1,0 +1,17 @@
+FROM bearstech/debian:stretch
+
+RUN apt-get update && apt-get install -y \
+        ca-certificates \
+        php-memcached \
+        php-xdebug \
+        php7.0-fpm \
+        php7.0-gd \
+        php7.0-json \
+        php7.0-mbstring \
+        php7.0-mysql \
+        php7.0-pgsql \
+        php7.0-xml \
+        && rm -rf /var/lib/apt/lists/*
+
+#COPY images/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+#COPY images/php/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
