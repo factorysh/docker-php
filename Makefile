@@ -15,3 +15,14 @@
 	docker build -t bearstech/php-composer:7.0 -f Dockerfile.7-composer .
 	docker tag bearstech/php-composer:7.0 bearstech/php-composer:7
 	docker tag bearstech/php-composer:7.0 bearstech/php-composer:latest
+
+push:
+	#docker push bearstech/php:7.0
+	#docker push bearstech/php:7
+	#docker push bearstech/php:latest
+	docker push bearstech/php-cli:7.0
+	docker push bearstech/php-cli:7
+	docker push bearstech/php-cli:latest
+	docker push bearstech/php-composer:7.0
+	docker push bearstech/php-composer:7
+	docker push bearstech/php-composer:latest
