@@ -17,9 +17,9 @@
 	docker tag bearstech/php-composer:7.0 bearstech/php-composer:latest
 
 push:
-	#docker push bearstech/php:7.0
-	#docker push bearstech/php:7
-	#docker push bearstech/php:latest
+	docker push bearstech/php:7.0
+	docker push bearstech/php:7
+	docker push bearstech/php:latest
 	docker push bearstech/php-cli:7.0
 	docker push bearstech/php-cli:7
 	docker push bearstech/php-cli:latest
