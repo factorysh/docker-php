@@ -13,5 +13,13 @@ RUN apt-get update && apt-get install -y \
         php7.0-xml \
         && rm -rf /var/lib/apt/lists/*
 
-#COPY images/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
-#COPY images/php/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+RUN mkdir /var/log/php
+
+COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+
+EXPOSE 9000
+VOLUME /var/log/php
+
+CMD /usr/sbin/php-fpm7.0
+
