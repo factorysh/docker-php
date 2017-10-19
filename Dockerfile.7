@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
         php7.0-json \
         php7.0-mbstring \
         php7.0-mysql \
-        php7.0-pgsql \
         php7.0-xml \
         && rm -rf /var/lib/apt/lists/*
 
@@ -17,8 +16,6 @@ RUN phpdismod \
        ftp \
        msgpack \
        igbinary \
-       pdo_pgsql \
-       pgsql \
        wddx \
        xdebug
 
