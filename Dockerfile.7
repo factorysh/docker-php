@@ -13,6 +13,15 @@ RUN apt-get update && apt-get install -y \
         php7.0-xml \
         && rm -rf /var/lib/apt/lists/*
 
+RUN phpdismod \
+       ftp \
+       msgpack \
+       igbinary \
+       pdo_pgsql \
+       pgsql \
+       wddx \
+       xdebug
+
 RUN mkdir /var/log/php
 
 COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
@@ -22,4 +31,3 @@ EXPOSE 9000
 VOLUME /var/log/php
 
 CMD /usr/sbin/php-fpm7.0
-
