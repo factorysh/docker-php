@@ -27,4 +27,5 @@ COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 EXPOSE 9000
 VOLUME /var/log/php
 
+USER www-data
 CMD /usr/sbin/php-fpm7.0
