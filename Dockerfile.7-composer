@@ -21,6 +21,7 @@ ENV COMPOSER_CACHE_DIR=/.cache
 
 ARG uid=1001
 RUN useradd composer --uid ${uid} --shell /bin/bash
+ENV XDG_CONFIG_HOME=/home/composer
 USER composer
 
 CMD composer
