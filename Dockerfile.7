@@ -14,19 +14,20 @@ RUN apt-get update && apt-get install -y \
 
 RUN phpdismod \
        ftp \
-       msgpack \
-       igbinary \
        shmop \
        wddx \
        xdebug
 
-RUN mkdir /var/log/php
+RUN mkdir /var/log/php && \
+        ln -s /dev/stderr /var/log/php/php7.0-fpm.log && \
+        ln -s /dev/stderr /var/log/php/www.error.log && \
+        ln -s /dev/stdout /var/log/php/www.access.log && \
+        ln -s /dev/null /var/log/php/www.log.slow
 
 COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 
 EXPOSE 9000
-VOLUME /var/log/php
 
 USER www-data
 CMD /usr/sbin/php-fpm7.0
