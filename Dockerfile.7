@@ -21,10 +21,10 @@ RUN phpdismod \
        msgpack
 
 RUN mkdir /var/log/php && \
-        ln -s /dev/stderr /var/log/php/php7.0-fpm.log && \
-        ln -s /dev/stderr /var/log/php/www.error.log && \
-        ln -s /dev/stdout /var/log/php/www.access.log && \
         ln -s /dev/null /var/log/php/www.log.slow
+        #        ln -sf /proc/1/fd/2 /var/log/php/php7.0-fpm.log && \
+        #ln -sf /proc/1/fd/2 /var/log/php/www.error.log && \
+        #ln -sf /proc/1/fd/1 /var/log/php/www.access.log && \
 
 COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
