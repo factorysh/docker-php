@@ -16,7 +16,9 @@ RUN phpdismod \
        ftp \
        shmop \
        wddx \
-       xdebug
+       xdebug \
+    && phpenmod \
+       msgpack
 
 RUN mkdir /var/log/php && \
         ln -s /dev/stderr /var/log/php/php7.0-fpm.log && \
