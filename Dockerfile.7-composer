@@ -18,6 +18,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 WORKDIR /composer
 
 ENV COMPOSER_CACHE_DIR=/.cache
+ENV COMPOSER_NO_INTERACTION=1
 
 ARG uid=1001
 RUN useradd composer --uid ${uid} --shell /bin/bash
