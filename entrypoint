@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [[ $SMTP_SERVER ]] && [[ $SMTP_USER ]] && [[ $SMTP_PASSWORD ]]; then
+
+# set reasonable defaults
+
+SMTP_PORT=${SMTP_PORT:-25}
+SMTP_HOSTNAME=${SMTP_HOSTNAME:-localhost}
+SMTP_FROM=${SMTP_FROM:-$(id -un)@$(hostname)}
+
+conf="
+defaults
+auth           plain
+tls            off
+logfile        /var/log/msmtp.log
+
+account        factory
+host           $MAILS_DOMAIN
+port           $MAILS_PORT
+from           $MAILS_FROM
+user           $MAILS_USER
+password       $MAILS_TOKEN
+
+# Set a default account
+account default : factory
+"
+echo "$conf" > /etc/msmtprc
+
+fi
+
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- php-fpm "$@"
+fi
+
+exec "$@"
