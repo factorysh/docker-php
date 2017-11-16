@@ -15,11 +15,11 @@ tls            off
 logfile        /var/log/msmtp.log
 
 account        factory
-host           $SMTP_SERVER
-port           $SMTP_PORT
-from           $SMTP_FROM
-user           $SMTP_USER
-password       $SMTP_PASSWORD
+host           $MAILS_DOMAIN
+port           $MAILS_PORT
+from           $MAILS_FROM
+user           $MAILS_USER
+password       $MAILS_TOKEN
 
 # Set a default account
 account default : factory
