@@ -10,7 +10,7 @@ SMTP_FROM=${SMTP_FROM:-$(id -un)@$(hostname)}
 
 conf="
 defaults
-auth           on
+auth           plain
 tls            off
 logfile        /var/log/msmtp.log
 
