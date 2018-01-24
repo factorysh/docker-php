@@ -3,10 +3,14 @@ FROM bearstech/php-cli:7
 USER root
 RUN apt-get update && \
         apt-get install -y --no-install-recommends \
+                        bzip2 \
+                        git \
+                        gzip \
+                        mercurial \
+                        p7zip \
                         php7.0-dev \
-                        git mercurial \
-                        bzip2 gzip unzip p7zip && \
-        rm -rf /var/lib/apt/lists/*
+                        unzip \
+        && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
 
