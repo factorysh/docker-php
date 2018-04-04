@@ -1,0 +1,7 @@
+---
+
+command:
+    php -v:
+        exit-status: 0
+        stdout:
+            - PHP 7.{{ .Vars.php_version_minor }}
