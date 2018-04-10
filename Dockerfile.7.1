@@ -1,0 +1,54 @@
+FROM bearstech/debian:stretch
+
+RUN apt-get update && apt-get install -y \
+        curl \
+        ca-certificates \
+        apt-transport-https \
+        lsb-release \
+        ca-certificates \
+        && rm -rf /var/lib/apt/lists/*
+
+RUN cd /etc/apt/trusted.gpg.d && curl -O https://packages.sury.org/php/apt.gpg && mv apt.gpg php.gpg
+
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/php.list
+
+RUN apt-get update && apt-get install -y \
+        libapache2-mod-php7.1 \
+        php7.1-mysql \
+        php7.1-curl \
+        php7.1-json \
+        php7.1-gd \
+        php7.1-mcrypt \
+        php7.1-intl \
+        php7.1-mbstring \
+        php7.1-xml \
+        php7.1-zip \
+        php7.1-fpm \
+        php7.1-readline \
+        && rm -rf /var/lib/apt/lists/*
+
+RUN phpdismod \
+       ftp \
+       shmop \
+       wddx
+
+RUN ln -s /usr/bin/msmtp /usr/local/bin/sendmail
+
+RUN mkdir /var/log/php && \
+        ln -sf /proc/1/fd/2 /var/log/php/php7.1-fpm.log && \
+        ln -sf /proc/1/fd/2 /var/log/php/www.error.log && \
+        ln -sf /proc/1/fd/1 /var/log/php/www.access.log && \
+        ln -sf /dev/null    /var/log/php/www.slow.log && \
+        ln -sf /proc/1/fd/2 /var/log/msmtp.log
+
+COPY entrypoint /usr/local/bin/entrypoint
+ENTRYPOINT ["entrypoint"]
+
+COPY conf/www.conf /etc/php/7.1/fpm/pool.d/www.conf
+COPY conf/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+RUN touch /etc/msmtprc && chmod 777 /etc/msmtprc
+
+EXPOSE 9000
+
+USER www-data
+CMD /usr/sbin/php-fpm7.1
