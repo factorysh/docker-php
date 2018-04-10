@@ -5,19 +5,21 @@ GOSS_VERSION := 0.3.5
 pull:
 	docker pull bearstech/debian:stretch
 
+images: pull 7
+
 7: 7.1-fpm 7.1-composer
 
 7.0: 7.0-fpm 7.0-composer
 
-7-fpm:
+7.0-fpm:
 	docker build -t bearstech/php:7.0 -f Dockerfile.7 .
 	docker tag bearstech/php:7.0 bearstech/php:7
 
-7-cli:
+7.0-cli:
 	docker build -t bearstech/php-cli:7.0 -f Dockerfile.7-cli .
 	docker tag bearstech/php-cli:7.0 bearstech/php-cli:7
 
-7-composer: 7-cli
+7.0-composer: 7.0-cli
 	docker build -t bearstech/php-composer:7.0 -f Dockerfile.7-composer .
 	docker tag bearstech/php-composer:7.0 bearstech/php-composer:7
 
