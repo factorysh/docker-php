@@ -34,6 +34,10 @@ COPY entrypoint /usr/local/bin/entrypoint
 ENTRYPOINT ["entrypoint"]
 
 COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+RUN chmod 700 /etc/php/7.0/fpm/pool.d && \
+        chmod 600 /etc/php/7.0/fpm/pool.d/www.conf && \
+        chown -R www-data /etc/php/7.0/fpm/pool.d
+
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 RUN touch /etc/msmtprc && chmod 777 /etc/msmtprc
 
