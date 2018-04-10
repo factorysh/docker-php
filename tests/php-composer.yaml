@@ -1,0 +1,6 @@
+---
+
+gossfile:
+    php_version.yaml: {}
+    php_version_composer.yaml: {}
+    bundle_install.yaml: {}

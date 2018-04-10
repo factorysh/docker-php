@@ -63,6 +63,6 @@ test-composer-7.0: bin/goss
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-composer:7.0 \
-		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
+		goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
 tests: test-7.0 test-cli-7.0 test-composer-7.0
