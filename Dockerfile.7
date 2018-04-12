@@ -43,5 +43,7 @@ RUN touch /etc/msmtprc && chmod 777 /etc/msmtprc
 
 EXPOSE 9000
 
+COPY web /var/www/web
+
 USER www-data
 CMD /usr/sbin/php-fpm7.0
