@@ -2,12 +2,12 @@
 
 GOSS_VERSION := 0.3.5
 
+all: pull 7.0 7.1
+
 pull:
 	docker pull bearstech/debian:stretch
 
-images: pull 7
-
-7: 7.1-fpm 7.1-composer
+7.1: 7.1-fpm 7.1-composer
 
 7.0: 7.0-fpm 7.0-composer
 
