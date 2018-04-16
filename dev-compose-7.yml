@@ -17,3 +17,10 @@ services:
         ports:
             - 8000:8000
 
+    goss:
+        build:
+            context: .
+            dockerfile: Dockerfile.goss
+        links:
+            - php
+            - nginx
