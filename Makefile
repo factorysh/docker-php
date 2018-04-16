@@ -2,16 +2,16 @@
 
 GOSS_VERSION := 0.3.5
 
-up7:
-	docker-compose -f dev-compose-7.yml up -d --build
+up7.0:
+	docker-compose -f dev-compose-7.0.yml up -d --build
 	docker-compose -f dev-compose-7.yml ps
 
 up7.1:
 	docker-compose -f dev-compose-7.1.yml up -d --build
 	docker-compose -f dev-compose-7.1.yml ps
 
-down7:
-	docker-compose -f dev-compose-7.yml down
+down7.0:
+	docker-compose -f dev-compose-7.0.yml down
 
 down7.1:
 	docker-compose -f dev-compose-7.1.yml down
