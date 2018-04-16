@@ -8,9 +8,9 @@ RUN apt-get update && apt-get install -y \
         ca-certificates \
         && rm -rf /var/lib/apt/lists/*
 
-RUN cd /etc/apt/trusted.gpg.d && curl -O https://packages.sury.org/php/apt.gpg && mv apt.gpg php.gpg
+RUN cd /etc/apt/trusted.gpg.d && curl -o php-sury.gpg https://packages.sury.org/php/apt.gpg
 
-RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/php-sury.list
 
 RUN apt-get update && apt-get install -y \
         libapache2-mod-php7.1 \
