@@ -2,12 +2,9 @@
 
 GOSS_VERSION := 0.3.5
 
-all: pull 7.0 7.1
-
 up7:
 	docker-compose -f dev-compose-7.yml up -d --build
 	docker-compose -f dev-compose-7.yml ps
-	docker-compose logs php
 
 up7.1:
 	docker-compose -f dev-compose-7.1.yml up -d --build
@@ -22,11 +19,11 @@ down7.1:
 pull:
 	docker pull bearstech/debian:stretch
 
-images: pull 7.1
+images: pull 7.0 7.1
 
-7.1: 7.1-fpm 7.1-composer
+7.1: 7.1-fpm 7.1-composer 7.1-cli
 
-7.0: 7.0-fpm 7.0-composer
+7.0: 7.0-fpm 7.0-composer 7.0-cli
 
 7.0-fpm:
 	docker build -t bearstech/php:7.0 -f Dockerfile.7 .
