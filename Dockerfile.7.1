@@ -13,7 +13,6 @@ RUN cd /etc/apt/trusted.gpg.d && curl -o php-sury.gpg https://packages.sury.org/
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/php-sury.list
 
 RUN apt-get update && apt-get install -y \
-        ca-certificates \
         msmtp \
         php7.1-mysql \
         php7.1-curl \
