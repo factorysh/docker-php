@@ -1,0 +1,8 @@
+process:
+  nginx:
+    running: true
+http:
+    http://localhost:8000:
+      status: 200
+      timeout: 5000
+      body: [Hello world]

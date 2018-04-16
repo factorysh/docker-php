@@ -122,6 +122,12 @@ test-composer-7.0: bin/goss
 		bearstech/php-composer:7.0 \
 		goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
+test-html-7.0: bin/goss up7.0
+	bin/goss -g tests/http_test.yaml validate --max-concurrent 4 --format documentation
+
+test-html-7.1: bin/goss up7.1
+	bin/goss -g tests/http_test.yaml validate --max-concurrent 4 --format documentation
+
 tests-7.0: test-7.0 test-cli-7.0 test-composer-7.0
 
 tests-7.1: test-7.1 test-cli-7.1 test-composer-7.1
