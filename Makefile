@@ -7,6 +7,7 @@ images: pull 7.0 7.1
 up7:
 	docker-compose -f dev-compose-7.yml up -d --build
 	docker-compose -f dev-compose-7.yml ps
+	docker-compose logs php
 
 up7.1:
 	docker-compose -f dev-compose-7.1.yml up -d --build
