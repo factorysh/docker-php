@@ -5,6 +5,8 @@ version: "3"
 services:
     php:
         image: bearstech/php:${PHP_VERSION}
+        volumes:
+            - ./tests/www:/var/www/web
 
     nginx:
         build:
