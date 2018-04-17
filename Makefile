@@ -7,20 +7,6 @@ images: pull 7.0 7.1
 pull:
 	docker pull bearstech/debian:stretch
 
-up7.0:
-	docker-compose -f dev-compose-7.0.yml up -d --build
-	docker-compose -f dev-compose-7.0.yml ps
-
-up7.1:
-	docker-compose -f dev-compose-7.1.yml up -d --build
-	docker-compose -f dev-compose-7.1.yml ps
-
-down7.0:
-	docker-compose -f dev-compose-7.0.yml down
-
-down7.1:
-	docker-compose -f dev-compose-7.1.yml down
-
 7.1: 7.1-fpm 7.1-composer 7.1-cli
 
 7.0: 7.0-fpm 7.0-composer 7.0-cli
@@ -122,14 +108,22 @@ test-composer-7.0: bin/goss
 		bearstech/php-composer:7.0 \
 		goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
-test-html-7.0: bin/goss up7.0
-	bin/goss -g tests/http_test.yaml validate --max-concurrent 4 --format documentation
+test-html-7.0: bin/goss
+	PHP_VERSION=7.0 docker-compose up -d --build nginx
+	sleep 1
+	PHP_VERSION=7.0 docker-compose up client
+	PHP_VERSION=7.0 docker-compose down --remove-orphans
 
-test-html-7.1: bin/goss up7.1
-	bin/goss -g tests/http_test.yaml validate --max-concurrent 4 --format documentation
+test-html-7.1: bin/goss
+	PHP_VERSION=7.1 docker-compose up -d --build nginx
+	sleep 1
+	PHP_VERSION=7.1 docker-compose up client
+	PHP_VERSION=7.1 docker-compose down --remove-orphans
 
-tests-7.0: test-7.0 test-cli-7.0 test-composer-7.0
+test-html: test-html-7.0 test-html-7.1
 
-tests-7.1: test-7.1 test-cli-7.1 test-composer-7.1
+tests-7.0: test-7.0 test-cli-7.0 test-composer-7.0 test-html-7.0
+
+tests-7.1: test-7.1 test-cli-7.1 test-composer-7.1 test-html-7.1
 
 tests: tests-7.0 tests-7.1
