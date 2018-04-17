@@ -109,12 +109,14 @@ test-composer-7.0: bin/goss
 		goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
 test-html-7.0: bin/goss
+	PHP_VERSION=7.0 docker-compose down --remove-orphans
 	PHP_VERSION=7.0 docker-compose up -d --build nginx
 	sleep 1
 	PHP_VERSION=7.0 docker-compose up client
 	PHP_VERSION=7.0 docker-compose down --remove-orphans
 
 test-html-7.1: bin/goss
+	PHP_VERSION=7.1 docker-compose down --remove-orphans
 	PHP_VERSION=7.1 docker-compose up -d --build nginx
 	sleep 1
 	PHP_VERSION=7.1 docker-compose up client
