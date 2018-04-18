@@ -1,4 +1,3 @@
 FROM bearstech/nginx:latest
 
 COPY conf/nginx.conf /etc/nginx/sites-enabled/default
-COPY web /var/www/web
