@@ -1,0 +1,27 @@
+---
+
+version: "3"
+
+services:
+    php:
+        image: bearstech/php:${PHP_VERSION}
+        volumes:
+            - ./tests/www:/var/www/web
+
+    nginx:
+        build:
+            context: .
+            dockerfile: Dockerfile.nginx
+        links:
+            - php
+
+    client:
+        image: bearstech/debian:stretch
+        volumes:
+            - ./bin/goss:/usr/local/bin/goss
+            - ./tests:/goss
+        working_dir: /goss
+        links:
+            - nginx
+        command: goss -g http_test.yaml validate --max-concurrent 4 --format documentation
+

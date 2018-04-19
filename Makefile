@@ -108,8 +108,24 @@ test-composer-7.0: bin/goss
 		bearstech/php-composer:7.0 \
 		goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
-tests-7.0: test-7.0 test-cli-7.0 test-composer-7.0
+test-html-7.0: bin/goss
+	PHP_VERSION=7.0 docker-compose down --remove-orphans
+	PHP_VERSION=7.0 docker-compose up -d --build nginx
+	sleep 1
+	PHP_VERSION=7.0 docker-compose up client
+	PHP_VERSION=7.0 docker-compose down --remove-orphans
 
-tests-7.1: test-7.1 test-cli-7.1 test-composer-7.1
+test-html-7.1: bin/goss
+	PHP_VERSION=7.1 docker-compose down --remove-orphans
+	PHP_VERSION=7.1 docker-compose up -d --build nginx
+	sleep 1
+	PHP_VERSION=7.1 docker-compose up client
+	PHP_VERSION=7.1 docker-compose down --remove-orphans
+
+test-html: test-html-7.0 test-html-7.1
+
+tests-7.0: test-7.0 test-cli-7.0 test-composer-7.0 test-html-7.0
+
+tests-7.1: test-7.1 test-cli-7.1 test-composer-7.1 test-html-7.1
 
 tests: tests-7.0 tests-7.1

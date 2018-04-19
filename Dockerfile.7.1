@@ -41,11 +41,15 @@ RUN mkdir /var/log/php && \
         ln -sf /dev/null    /var/log/php/www.slow.log && \
         ln -sf /proc/1/fd/2 /var/log/msmtp.log
 
-COPY entrypoint /usr/local/bin/entrypoint
+COPY entrypoint7.1 /usr/local/bin/entrypoint
 ENTRYPOINT ["entrypoint"]
 
 COPY conf/www.conf /etc/php/7.1/fpm/pool.d/www.conf
-COPY conf/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+RUN chmod 700 /etc/php/7.1/fpm/pool.d && \
+        chmod 600 /etc/php/7.1/fpm/pool.d/www.conf && \
+        chown -R www-data /etc/php/7.1/fpm/pool.d
+
+COPY conf/php7.1-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 RUN touch /etc/msmtprc && chmod 777 /etc/msmtprc
 
 EXPOSE 9000

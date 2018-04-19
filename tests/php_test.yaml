@@ -1,8 +1,8 @@
 ---
 
 command:
-    "php ./test.php":
+    "php ./www/index.php":
         exit-status: 0
         timeout: 120000
         stdout:
-            - hello world
+            - Hello world
