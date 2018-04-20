@@ -1,0 +1,6 @@
+---
+
+command:
+    "cp composer.json /composer && composer install -d /composer":
+        exit-status: 0
+        timeout: 50000
