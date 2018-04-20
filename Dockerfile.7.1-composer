@@ -32,4 +32,4 @@ RUN chown -R composer:composer /composer
 
 USER composer
 
-#CMD composer
+CMD composer
