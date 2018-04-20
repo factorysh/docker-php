@@ -1,0 +1,8 @@
+---
+
+command:
+    "cp ./www/test-composer.php /composer && php /composer/test-composer.php":
+        exit-status: 0
+        timeout: 120000
+        stdout:
+            - Another-Hello-World-Test

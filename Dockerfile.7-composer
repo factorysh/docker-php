@@ -27,6 +27,9 @@ ENV COMPOSER_NO_INTERACTION=1
 ARG uid=1001
 RUN useradd composer --uid ${uid} --shell /bin/bash
 ENV XDG_CONFIG_HOME=/home/composer
+
+RUN chown -R composer:composer /composer
+
 USER composer
 
 CMD composer
