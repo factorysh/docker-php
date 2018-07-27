@@ -97,7 +97,7 @@ tests/bin/goss:
 
 test-7.2: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php:7.2 \
@@ -105,7 +105,7 @@ test-7.2: tests/bin/goss
 
 test-cli-7.2: tests/bin/goss
 	@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 	-v `pwd`/tests:/goss \
 	-w /goss \
 	bearstech/php-cli:7.2 \
@@ -113,7 +113,7 @@ test-cli-7.2: tests/bin/goss
 
 test-composer-7.2: tests/bin/goss
 	@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 	-v `pwd`/tests:/goss \
 	-w /goss \
 	bearstech/php-composer:7.2 \
@@ -121,7 +121,7 @@ test-composer-7.2: tests/bin/goss
 
 test-7.1: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php:7.1 \
@@ -129,7 +129,7 @@ test-7.1: tests/bin/goss
 
 test-cli-7.1: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-cli:7.1 \
@@ -137,7 +137,7 @@ test-cli-7.1: tests/bin/goss
 
 test-composer-7.1: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-composer:7.1 \
@@ -145,7 +145,7 @@ test-composer-7.1: tests/bin/goss
 
 test-7.0: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php:7.0 \
@@ -153,7 +153,7 @@ test-7.0: tests/bin/goss
 
 test-cli-7.0: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-cli:7.0 \
@@ -161,7 +161,7 @@ test-cli-7.0: tests/bin/goss
 
 test-composer-7.0: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-composer:7.0 \
