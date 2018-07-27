@@ -1,0 +1,20 @@
+FROM bearstech/debian:stretch
+
+ARG uid=1000
+
+RUN set -eux \
+    &&  apt-get update \
+    &&  apt-get install -y --no-install-recommends \
+                    ca-certificates \
+                    php7.0-cli \
+                    php7.0-gd \
+                    php7.0-mbstring \
+                    php7.0-xml \
+    &&  apt-get clean \
+    &&  rm -rf /var/lib/apt/lists/* \
+    &&  useradd php --uid ${uid} --shell /bin/bash
+
+USER php
+WORKDIR /home/php
+
+CMD ["php"]

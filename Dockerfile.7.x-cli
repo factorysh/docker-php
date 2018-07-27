@@ -1,0 +1,32 @@
+FROM bearstech/debian:stretch
+
+ARG PHP_MINOR_VERSION
+ARG uid=1000
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN set -eux \
+    &&  apt-get update \
+    &&  apt-get install -y --no-install-recommends \
+                  curl \
+                  ca-certificates \
+                  apt-transport-https \
+                  lsb-release \
+                  ca-certificates \
+    &&  apt-get clean \
+    &&  rm -rf /var/lib/apt/lists/* \
+    &&  curl https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php-sury.gpg \
+    &&  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php-sury.list \
+    &&  apt-get update \
+    &&  apt-get install -y --no-install-recommends \
+                  php7.${PHP_MINOR_VERSION}-cli \
+                  php7.${PHP_MINOR_VERSION}-gd \
+                  php7.${PHP_MINOR_VERSION}-mbstring \
+                  php7.${PHP_MINOR_VERSION}-xml \
+    &&  apt-get clean \
+    &&  rm -rf /var/lib/apt/lists/* \
+    &&  useradd php --uid ${uid} --shell /bin/bash
+
+USER php
+WORKDIR /home/php
+
+CMD ["php"]

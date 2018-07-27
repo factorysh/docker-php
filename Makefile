@@ -16,53 +16,75 @@ build: 7.0 7.1 7.2
 7.0: 7.0-fpm 7.0-composer 7.0-cli
 
 7.0-fpm:
-	docker build -t bearstech/php:7.0 -f Dockerfile.7 .
-	docker tag bearstech/php:7.0 bearstech/php:7
+	docker build -t bearstech/php:7.0 -f Dockerfile.7.0 .
 
 7.0-cli:
-	docker build -t bearstech/php-cli:7.0 -f Dockerfile.7-cli .
-	docker tag bearstech/php-cli:7.0 bearstech/php-cli:7
+	docker build -t bearstech/php-cli:7.0 -f Dockerfile.7.0-cli .
 
 7.0-composer: 7.0-cli
-	docker build -t bearstech/php-composer:7.0 -f Dockerfile.7-composer .
-	docker tag bearstech/php-composer:7.0 bearstech/php-composer:7
+	docker build \
+				-t bearstech/php-composer:7.0 \
+				-f Dockerfile.7.x-composer \
+				--build-arg PHP_MINOR_VERSION=0 \
+				.
 
 7.1-fpm:
-	docker build -t bearstech/php:7.1 -f Dockerfile.7.1 .
-	docker tag bearstech/php:7.1 bearstech/php:7
+	docker build \
+				-t bearstech/php:7.1 \
+				-f Dockerfile.7.x \
+				--build-arg PHP_MINOR_VERSION=1 \
+				.
 
 7.1-cli:
-	docker build -t bearstech/php-cli:7.1 -f Dockerfile.7.1-cli .
-	docker tag bearstech/php-cli:7.1 bearstech/php-cli:7
+	docker build \
+				-t bearstech/php-cli:7.1 \
+				-f Dockerfile.7.x-cli \
+				--build-arg PHP_MINOR_VERSION=1 \
+				.
 
 7.1-composer: 7.1-cli
-	docker build -t bearstech/php-composer:7.1 -f Dockerfile.7.1-composer .
-	docker tag bearstech/php-composer:7.1 bearstech/php-composer:7
+	docker build \
+				-t bearstech/php-composer:7.1 \
+				-f Dockerfile.7.x-composer \
+				--build-arg PHP_MINOR_VERSION=1 \
+				.
 
 7.2-fpm:
-	docker build -t bearstech/php:7.2 -f Dockerfile.7.2 .
+	docker build \
+				-t bearstech/php:7.2 \
+				-f Dockerfile.7.x \
+				--build-arg PHP_MINOR_VERSION=2 \
+				.
 	docker tag bearstech/php:7.2 bearstech/php:latest
 
 7.2-cli:
-	docker build -t bearstech/php-cli:7.2 -f Dockerfile.7.2-cli .
+	docker build \
+					-t bearstech/php-cli:7.2 \
+					-f Dockerfile.7.x-cli \
+					--build-arg PHP_MINOR_VERSION=2 \
+					.
 	docker tag bearstech/php-cli:7.2 bearstech/php-cli:latest
 
 7.2-composer: 7.2-cli
-	docker build -t bearstech/php-composer:7.2 -f Dockerfile.7.2-composer .
+	docker build \
+				-t bearstech/php-composer:7.2 \
+				-f Dockerfile.7.x-composer \
+				--build-arg PHP_MINOR_VERSION=2 \
+				.
 	docker tag bearstech/php-composer:7.2 bearstech/php-composer:latest
 
 push:
 	docker push bearstech/php:7.0
 	docker push bearstech/php:7.1
-	docker push bearstech/php:7
+	docker push bearstech/php:7.2
 	docker push bearstech/php:latest
 	docker push bearstech/php-cli:7.0
 	docker push bearstech/php-cli:7.1
-	docker push bearstech/php-cli:7
+	docker push bearstech/php-cli:7.2
 	docker push bearstech/php-cli:latest
 	docker push bearstech/php-composer:7.0
 	docker push bearstech/php-composer:7.1
-	docker push bearstech/php-composer:7
+	docker push bearstech/php-composer:7.2
 	docker push bearstech/php-composer:latest
 
 clean:
@@ -149,21 +171,21 @@ test-html-7.0: bin/goss
 	PHP_VERSION=7.0 docker-compose down --remove-orphans
 	PHP_VERSION=7.0 docker-compose up -d --build nginx
 	sleep 1
-	PHP_VERSION=7.0 docker-compose up client
+	PHP_VERSION=7.0 docker-compose up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=7.0 docker-compose down --remove-orphans
 
 test-html-7.1: bin/goss
 	PHP_VERSION=7.1 docker-compose down --remove-orphans
 	PHP_VERSION=7.1 docker-compose up -d --build nginx
 	sleep 1
-	PHP_VERSION=7.1 docker-compose up client
+	PHP_VERSION=7.1 docker-compose up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=7.1 docker-compose down --remove-orphans
 
 test-html-7.2: bin/goss
 	PHP_VERSION=7.2 docker-compose down --remove-orphans
 	PHP_VERSION=7.2 docker-compose up -d --build nginx
 	sleep 1
-	PHP_VERSION=7.2 docker-compose up client
+	PHP_VERSION=7.2 docker-compose up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=7.2 docker-compose down --remove-orphans
 
 test-html: test-html-7.0 test-html-7.1 test-html-7.2
