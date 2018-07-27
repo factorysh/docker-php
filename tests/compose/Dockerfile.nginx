@@ -1,0 +1,3 @@
+FROM bearstech/nginx:latest
+
+COPY compose/nginx.conf /etc/nginx/sites-enabled/default

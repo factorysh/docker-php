@@ -6,12 +6,12 @@ services:
     php:
         image: bearstech/php:${PHP_VERSION}
         volumes:
-            - ./tests/www:/var/www/web
+            - ./www:/var/www/web
 
     nginx:
         build:
             context: .
-            dockerfile: Dockerfile.nginx
+            dockerfile: ./compose/Dockerfile.nginx
         links:
             - php
 
@@ -19,9 +19,8 @@ services:
         image: bearstech/debian:stretch
         volumes:
             - ./bin/goss:/usr/local/bin/goss
-            - ./tests:/goss
+            - ./compose:/goss
         working_dir: /goss
         links:
             - nginx
         command: goss -g http_test.yaml validate --max-concurrent 4 --format documentation
-

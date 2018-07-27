@@ -1,3 +1,0 @@
-FROM bearstech/nginx:latest
-
-COPY conf/nginx.conf /etc/nginx/sites-enabled/default

@@ -90,103 +90,91 @@ push:
 clean:
 	rm -rf bin
 
-bin/goss:
-	mkdir -p bin
-	curl -o bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
-	chmod +x bin/goss
+tests/bin/goss:
+	mkdir -p tests/bin
+	curl -o tests/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
+	chmod +x tests/bin/goss
 
-test-7.2: bin/goss
+test-7.2: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php:7.2 \
 		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.2: bin/goss
+test-cli-7.2: tests/bin/goss
 	@docker run --rm -t \
-	-v `pwd`/bin/goss:/usr/local/bin/goss \
+	-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 	-v `pwd`/tests:/goss \
 	-w /goss \
 	bearstech/php-cli:7.2 \
 	goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.2: bin/goss
+test-composer-7.2: tests/bin/goss
 	@docker run --rm -t \
-	-v `pwd`/bin/goss:/usr/local/bin/goss \
+	-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 	-v `pwd`/tests:/goss \
 	-w /goss \
 	bearstech/php-composer:7.2 \
 	/bin/bash -c "goss -g php-composer.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-7.1: bin/goss
+test-7.1: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php:7.1 \
 		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.1: bin/goss
+test-cli-7.1: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-cli:7.1 \
 		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.1: bin/goss
+test-composer-7.1: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-composer:7.1 \
 		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-7.0: bin/goss
+test-7.0: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php:7.0 \
 		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.0: bin/goss
+test-cli-7.0: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-cli:7.0 \
 		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.0: bin/goss
+test-composer-7.0: tests/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests/bin/goss:/usr/local/tests/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
 		bearstech/php-composer:7.0 \
 		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-html-7.0: bin/goss
-	PHP_VERSION=7.0 docker-compose down --remove-orphans
-	PHP_VERSION=7.0 docker-compose up -d --build nginx
-	sleep 1
-	PHP_VERSION=7.0 docker-compose up --abort-on-container-exit --exit-code-from client client
-	PHP_VERSION=7.0 docker-compose down --remove-orphans
+test-html-7.0: tests/bin/goss
+	make -C tests do_docker_compose PHP_VERSION=7.0
 
-test-html-7.1: bin/goss
-	PHP_VERSION=7.1 docker-compose down --remove-orphans
-	PHP_VERSION=7.1 docker-compose up -d --build nginx
-	sleep 1
-	PHP_VERSION=7.1 docker-compose up --abort-on-container-exit --exit-code-from client client
-	PHP_VERSION=7.1 docker-compose down --remove-orphans
+test-html-7.1: tests/bin/goss
+	make -C tests do_docker_compose PHP_VERSION=7.1
 
-test-html-7.2: bin/goss
-	PHP_VERSION=7.2 docker-compose down --remove-orphans
-	PHP_VERSION=7.2 docker-compose up -d --build nginx
-	sleep 1
-	PHP_VERSION=7.2 docker-compose up --abort-on-container-exit --exit-code-from client client
-	PHP_VERSION=7.2 docker-compose down --remove-orphans
+test-html-7.2: tests/bin/goss
+	make -C tests do_docker_compose PHP_VERSION=7.2
 
 test-html: test-html-7.0 test-html-7.1 test-html-7.2
 
