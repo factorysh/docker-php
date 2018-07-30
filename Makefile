@@ -153,19 +153,19 @@ test-7.2: tests/bin/goss
 
 test-cli-7.2: tests/bin/goss
 	@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-	-v `pwd`/tests:/goss \
-	-w /goss \
-	bearstech/php-cli:7.2 \
-	goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests:/goss \
+		-w /goss \
+		bearstech/php-cli:7.2 \
+		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
 
 test-composer-7.2: tests/bin/goss
 	@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-	-v `pwd`/tests:/goss \
-	-w /goss \
-	bearstech/php-composer:7.2 \
-	/bin/bash -c "goss -g php-composer.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests:/goss \
+		-w /goss \
+		bearstech/php-composer:7.2 \
+		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
 test-html-7.0: tests/bin/goss
 	make -C tests do_docker_compose PHP_VERSION=7.0
