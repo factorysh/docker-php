@@ -29,9 +29,6 @@ RUN set -eux \
                       php7.${PHP_MINOR_VERSION}-zip \
                       php7.${PHP_MINOR_VERSION}-fpm \
                       php7.${PHP_MINOR_VERSION}-readline \
-    &&  if [ "${PHP_MINOR_VERSION}" = "1" ]; then \
-            apt-get install -y --no-install-recommends php7.${PHP_MINOR_VERSION}-mcrypt; \
-        fi \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  phpdismod \
