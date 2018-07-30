@@ -96,28 +96,28 @@ tests/bin/goss:
 	chmod +x tests/bin/goss
 
 test-7.0: tests/bin/goss
-@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-	-v `pwd`/tests:/goss \
-	-w /goss \
-	bearstech/php:7.0 \
-	goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
+	@docker run --rm -t \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests:/goss \
+		-w /goss \
+		bearstech/php:7.0 \
+		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
 test-cli-7.0: tests/bin/goss
-@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-	-v `pwd`/tests:/goss \
-	-w /goss \
-	bearstech/php-cli:7.0 \
-	goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
+	@docker run --rm -t \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests:/goss \
+		-w /goss \
+		bearstech/php-cli:7.0 \
+		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
 test-composer-7.0: tests/bin/goss
-@docker run --rm -t \
-	-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-	-v `pwd`/tests:/goss \
-	-w /goss \
-	bearstech/php-composer:7.0 \
-	/bin/bash -c "goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
+	@docker run --rm -t \
+		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests:/goss \
+		-w /goss \
+		bearstech/php-composer:7.0 \
+		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
 test-7.1: tests/bin/goss
 	@docker run --rm -t \
