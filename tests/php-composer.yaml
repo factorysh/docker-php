@@ -1,7 +1,7 @@
 ---
 
 gossfile:
-    #php_test_composer.yaml: {}
+    # php_test_composer.yaml: {}
     php_version.yaml: {}
     php_test.yaml: {}
     php_version_composer.yaml: {}
