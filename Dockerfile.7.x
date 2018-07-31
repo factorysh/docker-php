@@ -36,6 +36,7 @@ RUN set -eux \
                      shmop \
                      wddx \
     &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
+    &&  ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm \
     &&  mkdir /var/log/php \
     &&  ln -sf /proc/1/fd/2 /var/log/php/php7.${PHP_MINOR_VERSION}-fpm.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
@@ -60,4 +61,4 @@ EXPOSE 9000
 USER www-data
 
 ENTRYPOINT ["entrypoint"]
-CMD /usr/sbin/php-fpm${PHP_VERSION}
+CMD ["/usr/sbin/php-fpm"]
