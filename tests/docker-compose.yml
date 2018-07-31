@@ -3,26 +3,25 @@
 version: "3"
 
 services:
-    php:
-        image: bearstech/php:${PHP_VERSION}
-        volumes:
-            - ./www:/var/www/web
+  php:
+    image: bearstech/php:${PHP_VERSION}
+    volumes:
+      - ./www:/var/www/web
 
-    nginx:
-        build:
-            context: .
-            dockerfile: ./compose/Dockerfile.nginx
-        links:
-            - php
+  nginx:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile.nginx
+    links:
+      - php
 
-    client:
-        image: bearstech/debian:stretch
-        volumes:
-            - ./bin/goss:/usr/local/bin/goss
-            - ./compose:/goss
-        working_dir: /goss
-        links:
-            - nginx
-        command:
-            - goss -g http_test.yaml validate \
-                --max-concurrent 4 --format documentation
+  client:
+    image: bearstech/debian:stretch
+    volumes:
+      - ./bin/goss:/usr/local/bin/goss
+      - ./compose:/goss
+    working_dir: /goss
+    links:
+      - nginx
+    command: |
+      goss -g http_test.yaml validate --max-concurrent 4 --format documentation
