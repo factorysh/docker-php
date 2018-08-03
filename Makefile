@@ -100,6 +100,7 @@ test-7.0: tests/bin/goss
 		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
+		--entrypoint "" \
 		bearstech/php:7.0 \
 		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
@@ -124,6 +125,7 @@ test-7.1: tests/bin/goss
 		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
+		--entrypoint "" \
 		bearstech/php:7.1 \
 		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
 
@@ -148,6 +150,7 @@ test-7.2: tests/bin/goss
 		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests:/goss \
 		-w /goss \
+		--entrypoint "" \
 		bearstech/php:7.2 \
 		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
 
