@@ -87,6 +87,20 @@ push:
 	docker push bearstech/php-composer:7.2
 	docker push bearstech/php-composer:latest
 
+remove_image:
+	docker rmi bearstech/php:7.0
+	docker rmi bearstech/php:7.1
+	docker rmi bearstech/php:7.2
+	docker rmi bearstech/php:latest
+	docker rmi bearstech/php-cli:7.0
+	docker rmi bearstech/php-cli:7.1
+	docker rmi bearstech/php-cli:7.2
+	docker rmi bearstech/php-cli:latest
+	docker rmi bearstech/php-composer:7.0
+	docker rmi bearstech/php-composer:7.1
+	docker rmi bearstech/php-composer:7.2
+	docker rmi bearstech/php-composer:latest
+
 clean:
 	rm -rf bin
 
