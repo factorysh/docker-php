@@ -104,94 +104,94 @@ remove_image:
 clean:
 	rm -rf bin
 
-tests/bin/goss:
-	mkdir -p tests/bin
-	curl -o tests/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
-	chmod +x tests/bin/goss
+tests_php/bin/goss:
+	mkdir -p tests_php/bin
+	curl -o tests_php/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
+	chmod +x tests_php/bin/goss
 
-test-7.0: tests/bin/goss
+test-7.0: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		--entrypoint "" \
 		bearstech/php:7.0 \
 		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.0: tests/bin/goss
+test-cli-7.0: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		bearstech/php-cli:7.0 \
 		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.0: tests/bin/goss
+test-composer-7.0: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		bearstech/php-composer:7.0 \
 		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-7.1: tests/bin/goss
+test-7.1: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		--entrypoint "" \
 		bearstech/php:7.1 \
 		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.1: tests/bin/goss
+test-cli-7.1: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		bearstech/php-cli:7.1 \
 		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.1: tests/bin/goss
+test-composer-7.1: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		bearstech/php-composer:7.1 \
 		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-7.2: tests/bin/goss
+test-7.2: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		--entrypoint "" \
 		bearstech/php:7.2 \
 		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.2: tests/bin/goss
+test-cli-7.2: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		bearstech/php-cli:7.2 \
 		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.2: tests/bin/goss
+test-composer-7.2: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests:/goss \
+		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		bearstech/php-composer:7.2 \
 		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-html-7.0: tests/bin/goss
-	make -C tests do_docker_compose PHP_VERSION=7.0
+test-html-7.0: tests_php/bin/goss
+	make -C tests_php do_docker_compose PHP_VERSION=7.0
 
-test-html-7.1: tests/bin/goss
-	make -C tests do_docker_compose PHP_VERSION=7.1
+test-html-7.1: tests_php/bin/goss
+	make -C tests_php do_docker_compose PHP_VERSION=7.1
 
-test-html-7.2: tests/bin/goss
-	make -C tests do_docker_compose PHP_VERSION=7.2
+test-html-7.2: tests_php/bin/goss
+	make -C tests_php do_docker_compose PHP_VERSION=7.2
 
 test-html: test-html-7.0 test-html-7.1 test-html-7.2
 
