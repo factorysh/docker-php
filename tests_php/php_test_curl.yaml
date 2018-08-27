@@ -1,0 +1,8 @@
+---
+
+command:
+  "php ./www/test-curl.php":
+    exit-status: 0
+    timeout: 120000
+
+
