@@ -17,7 +17,7 @@ services:
     ports:
       - 8000
     labels:
-        traefik.frontend.rule: Host:localhost,traefik
+      traefik.frontend.rule: Host:localhost,traefik
 
   traefik:
     image: bearstech/traefik-dev
@@ -35,5 +35,7 @@ services:
     working_dir: /goss
     links:
       - traefik
-    command: |
-      goss -g traefik_test.yaml validate --max-concurrent 4 --format documentation
+    command: >
+      goss -g traefik_test.yaml validate
+      --max-concurrent 4
+      --format documentation
