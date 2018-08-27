@@ -3,3 +3,4 @@
 gossfile:
     php_version.yaml: {}
     php_test.yaml: {}
+    php_curl.yaml: {}
