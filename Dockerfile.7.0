@@ -9,6 +9,7 @@ RUN set -eux \
                 msmtp \
                 php-memcached \
                 php-xdebug \
+                php7.0-curl \
                 php7.0-fpm \
                 php7.0-gd \
                 php7.0-json \
