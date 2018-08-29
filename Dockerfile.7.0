@@ -43,6 +43,8 @@ RUN set -eux \
     &&  touch /etc/msmtprc \
     &&  chmod 755 /etc/msmtprc
 
+LABEL sh.factory.probe.fpm.path=/__path
+
 EXPOSE 9000
 
 COPY entrypoint /usr/local/bin/entrypoint

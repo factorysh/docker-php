@@ -57,6 +57,9 @@ RUN set -eux \
     &&  chmod 755 /etc/msmtprc
 
 COPY entrypoint /usr/local/bin/entrypoint
+
+LABEL sh.factory.probe.fpm.path=/__path
+
 EXPOSE 9000
 USER www-data
 
