@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [[ $SMTP_SERVER ]] && [[ $SMTP_USER ]] && [[ $SMTP_PASSWORD ]]; then
+if [[ $MAILS_DOMAIN ]] && [[ $MAILS_USER ]] && [[ $MAILS_TOKEN ]]; then
 
 # set reasonable defaults
 
-SMTP_PORT=${SMTP_PORT:-25}
-SMTP_HOSTNAME=${SMTP_HOSTNAME:-localhost}
-SMTP_FROM=${SMTP_FROM:-$(id -un)@$(hostname)}
+SMTP_PORT=${MAILS_PORT:-25}
+SMTP_HOST=${MAILS_HOST:-mails}
+SMTP_FROM=${MAILS_FROM:-$MAILS_USER@$MAILS_DOMAIN}
 
 conf="
 defaults
@@ -15,9 +15,9 @@ tls            off
 logfile        /var/log/msmtp.log
 
 account        factory
-host           $MAILS_DOMAIN
-port           $MAILS_PORT
-from           $MAILS_FROM
+host           $SMTP_HOST
+port           $SMTP_PORT
+from           $SMTP_FROM
 user           $MAILS_USER
 password       $MAILS_TOKEN
 
