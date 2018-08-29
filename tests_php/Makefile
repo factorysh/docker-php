@@ -5,7 +5,7 @@ PHP_VERSION = ""
 
 all: do_docker_compose
 
-do_docker_compose: test_with_nginx test_with_nginx_and_traefik
+do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf
 
 test_with_nginx:
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
@@ -21,3 +21,10 @@ test_with_nginx_and_traefik:
 	sleep 1
 	PHP_VERSION=$(PHP_VERSION) docker-compose -f traefik-compose.yml up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=$(PHP_VERSION) docker-compose -f traefik-compose.yml down --remove-orphans
+
+test_telegraf:
+	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
+	PHP_VERSION=$(PHP_VERSION) docker-compose run \
+		telegraf \
+		goss -g /goss/php_status.yaml validate --format documentation
+	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans

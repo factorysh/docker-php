@@ -1,0 +1,6 @@
+---
+
+command:
+  "telegraf --config /etc/telegraf/telegraf.d/fpm.conf --test | grep ',pool=www,url=fcgi://php:9000/__status'":
+    exit-status: 0
+    timeout: 120000

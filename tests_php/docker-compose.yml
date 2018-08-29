@@ -25,5 +25,16 @@ services:
     working_dir: /goss
     links:
       - nginx
-    command: |
+    command: >
       goss -g http_test.yaml validate --max-concurrent 4 --format documentation
+
+  telegraf:
+    image: telegraf
+    volumes:
+      - ./telegraf_fpm.conf:/etc/telegraf/telegraf.d/fpm.conf
+      - ./bin/goss:/usr/local/bin/goss
+      - .:/goss
+    links:
+      - php
+    command: >
+      telegraf --config /etc/telegraf/telegraf.d/fpm.conf --test
