@@ -7,6 +7,13 @@ services:
     image: bearstech/php:${PHP_VERSION}
     volumes:
       - ./www:/var/www/web
+    links:
+      - mails
+    environment:
+      MAILS_TOKEN: password
+      MAILS_PORT: 1025
+      MAILS_DOMAIN: example.com
+      MAILS_USER: test
 
   nginx:
     build:
@@ -38,3 +45,8 @@ services:
       - php
     command: >
       telegraf --config /etc/telegraf/telegraf.d/fpm.conf --test
+
+  mails:
+    image: mailhog/mailhog
+    ports:
+      - 8025

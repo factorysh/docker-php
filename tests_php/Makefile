@@ -5,7 +5,7 @@ PHP_VERSION = ""
 
 all: do_docker_compose
 
-do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf
+do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf test_smtp
 
 test_with_nginx:
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
@@ -27,4 +27,13 @@ test_telegraf:
 	PHP_VERSION=$(PHP_VERSION) docker-compose run \
 		telegraf \
 		goss -g /goss/php_status.yaml validate --format documentation
+	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
+
+test_smtp:
+	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
+	PHP_VERSION=$(PHP_VERSION) docker-compose run \
+		-v $(PWD)/bin/goss:/usr/local/bin/goss \
+		-v $(PWD):/goss/ \
+		php \
+		'goss -g /goss/php_smtp.yaml validate --format documentation'
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
