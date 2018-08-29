@@ -41,7 +41,8 @@ RUN set -eux \
     &&  chmod 600 /etc/php/7.0/fpm/pool.d/www.conf \
     &&  chown -R www-data /etc/php/7.0/fpm/pool.d \
     &&  touch /etc/msmtprc \
-    &&  chmod 755 /etc/msmtprc
+    &&  chown www-data /etc/msmtprc \
+    &&  chmod 640 /etc/msmtprc
 
 LABEL sh.factory.probe.fpm.path=/__path
 

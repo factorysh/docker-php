@@ -54,7 +54,8 @@ RUN set -eux \
     &&  chmod 600 /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d/www.conf \
     &&  chown -R www-data /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d \
     &&  touch /etc/msmtprc \
-    &&  chmod 755 /etc/msmtprc
+    &&  chown www-data /etc/msmtprc \
+    &&  chmod 640 /etc/msmtprc
 
 COPY entrypoint /usr/local/bin/entrypoint
 
