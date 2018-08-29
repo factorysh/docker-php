@@ -8,5 +8,9 @@ command:
       - recipients=toto@toto.com
       - smtpstatus=250
       - exitcode=EX_OK
-# Aug 29 17:50:36 host=mails tls=off auth=on user=test from=test@example.com recipients=toto@toto.com mailsize=66 smtpstatus=250 smtpmsg='250 Ok: queued as XzKjCWk60aMbGDORQ1rpSTSqgCLpZWFir3KIXsZlC9s=@mailhog.example' exitcode=EX_OK
-
+# STDOUT is omething like :
+#
+# Aug 29 17:50:36 host=mails tls=off auth=on user=test from=test@example.com
+# recipients=toto@toto.com mailsize=66 smtpstatus=250
+# smtpmsg='250 Ok: queued as
+# XzKjCWk60aMbGDORQ1rpSTSqgCLpZWFir3KIXsZlC9s=@mailhog.example' exitcode=EX_OK
