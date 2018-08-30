@@ -107,7 +107,7 @@ clean:
 tests_php/bin/goss:
 	mkdir -p tests_php/bin
 	curl -o tests_php/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
-	chmod +x tests_php/bin/goss
+	chmod 755 tests_php/bin/goss
 
 test-7.0: tests_php/bin/goss
 	@docker run --rm -t \
