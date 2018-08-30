@@ -136,7 +136,7 @@ test-composer-7.0: tests_php/bin/goss
 
 test-7.1: tests_php/bin/goss
 	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
+		-v `pwd`/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		--entrypoint "" \
