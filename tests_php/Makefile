@@ -9,6 +9,7 @@ all: do_docker_compose
 do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf test_smtp
 
 test_with_nginx:
+	@echo "== Test Nginx for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) docker-compose up -d --build nginx
 	sleep 1
@@ -16,6 +17,7 @@ test_with_nginx:
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
 
 test_with_nginx_and_traefik:
+	@echo "== Test Nginx & Traefik for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) docker-compose -f traefik-compose.yml down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) docker-compose -f traefik-compose.yml build nginx
 	PHP_VERSION=$(PHP_VERSION) docker-compose -f traefik-compose.yml up -d nginx traefik
@@ -24,6 +26,7 @@ test_with_nginx_and_traefik:
 	PHP_VERSION=$(PHP_VERSION) docker-compose -f traefik-compose.yml down --remove-orphans
 
 test_telegraf:
+	@echo "== Test Telegraf for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) docker-compose run \
 		telegraf \
@@ -31,6 +34,7 @@ test_telegraf:
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
 
 test_smtp:
+	@echo "== Test SMTP for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) docker-compose run \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
