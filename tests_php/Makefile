@@ -2,6 +2,7 @@
 # This makefile is only used by docker-compose
 
 PHP_VERSION = ""
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 all: do_docker_compose
 
@@ -32,8 +33,8 @@ test_telegraf:
 test_smtp:
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) docker-compose run \
-		-v $(PWD)/bin/goss:/usr/local/bin/goss \
-		-v $(PWD):/goss/ \
+		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
+		-v $(ROOT_DIR):/goss/ \
 		php \
 		'goss -g /goss/php_smtp.yaml validate --format documentation'
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
