@@ -1,12 +1,13 @@
-FROM bearstech/debian:stretch
+FROM bearstech/php-cli:7.0
 
 ENV PHP_VERSION 7.0
+
+USER root
 
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
                 ca-certificates \
-                msmtp \
                 php-memcached \
                 php-xdebug \
                 php7.0-curl \
@@ -25,7 +26,6 @@ RUN set -eux \
                xdebug \
     &&  phpenmod \
               msgpack \
-    &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
     &&  mkdir /var/log/php \
     &&  ln -sf /proc/1/fd/2 /var/log/php/php7.0-fpm.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
@@ -48,7 +48,7 @@ LABEL sh.factory.probe.fpm.path=/__path
 
 EXPOSE 9000
 
-COPY entrypoint /usr/local/bin/entrypoint
+COPY entrypoint.sh /usr/local/bin/
 USER www-data
 
 ENTRYPOINT ["entrypoint"]
