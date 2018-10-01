@@ -15,7 +15,7 @@ build: 7.0 7.1 7.2
 
 7.0: 7.0-fpm 7.0-composer 7.0-cli
 
-7.0-fpm:
+7.0-fpm: 7.0-cli
 	docker build -t bearstech/php:7.0 -f Dockerfile.7.0 .
 
 7.0-cli:
