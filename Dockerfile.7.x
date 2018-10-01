@@ -1,19 +1,21 @@
 ARG PHP_MINOR_VERSION
-
 FROM bearstech/php-cli:7.${PHP_MINOR_VERSION}
+
+ARG PHP_MINOR_VERSION
+# Yes, twice ARG, it's a bug
 
 ENV PHP_VERSION=7.${PHP_MINOR_VERSION}
 
 USER root
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \
-    &&  apt-get update \
-    &&  apt-get install -y --no-install-recommends \
-                      php7.${PHP_MINOR_VERSION}-json \
-                      php7.${PHP_MINOR_VERSION}-intl \
-                      php7.${PHP_MINOR_VERSION}-zip \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
                       php7.${PHP_MINOR_VERSION}-fpm \
+                      php7.${PHP_MINOR_VERSION}-intl \
+                      php7.${PHP_MINOR_VERSION}-json \
                       php7.${PHP_MINOR_VERSION}-readline \
+                      php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  phpdismod \
