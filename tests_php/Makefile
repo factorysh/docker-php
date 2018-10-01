@@ -40,5 +40,5 @@ test_smtp:
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \
 		php \
-		'goss -g /goss/php_smtp.yaml validate --format documentation'
+		/usr/local/bin/goss -g /goss/php_smtp.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) docker-compose down --remove-orphans
