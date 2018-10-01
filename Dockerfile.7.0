@@ -51,5 +51,5 @@ EXPOSE 9000
 COPY entrypoint.sh /usr/local/bin/
 USER www-data
 
-ENTRYPOINT ["entrypoint"]
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/sbin/php-fpm7.0"]
