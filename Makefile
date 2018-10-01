@@ -1,6 +1,6 @@
 .PHONY: tests
 
-GOSS_VERSION := 0.3.5
+GOSS_VERSION := 0.3.6
 
 all: pull build
 
@@ -15,7 +15,7 @@ build: 7.0 7.1 7.2
 
 7.0: 7.0-fpm 7.0-composer 7.0-cli
 
-7.0-fpm:
+7.0-fpm: 7.0-cli
 	docker build -t bearstech/php:7.0 -f Dockerfile.7.0 .
 
 7.0-cli:
@@ -28,7 +28,7 @@ build: 7.0 7.1 7.2
 				--build-arg PHP_MINOR_VERSION=0 \
 				.
 
-7.1-fpm:
+7.1-fpm: 7.1-cli
 	docker build \
 				-t bearstech/php:7.1 \
 				-f Dockerfile.7.x \
@@ -49,7 +49,7 @@ build: 7.0 7.1 7.2
 				--build-arg PHP_MINOR_VERSION=1 \
 				.
 
-7.2-fpm:
+7.2-fpm: 7.2-cli
 	docker build \
 				-t bearstech/php:7.2 \
 				-f Dockerfile.7.x \

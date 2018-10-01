@@ -1,48 +1,33 @@
-FROM bearstech/debian:stretch
+ARG PHP_MINOR_VERSION
+FROM bearstech/php-cli:7.${PHP_MINOR_VERSION}
 
 ARG PHP_MINOR_VERSION
+# Yes, twice ARG, it's a bug
+
 ENV PHP_VERSION=7.${PHP_MINOR_VERSION}
 
+USER root
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \
-    &&  apt-get update \
-    &&  apt-get install -y --no-install-recommends \
-                      curl \
-                      ca-certificates \
-                      apt-transport-https \
-                      lsb-release \
-                      ca-certificates \
-    &&  apt-get clean \
-    &&  rm -rf /var/lib/apt/lists/* \
-    &&  curl https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php-sury.gpg \
-    &&  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php-sury.list \
-    &&  apt-get update \
-    &&  apt-get install -y --no-install-recommends \
-                      msmtp \
-                      php7.${PHP_MINOR_VERSION}-mysql \
-                      php7.${PHP_MINOR_VERSION}-curl \
-                      php7.${PHP_MINOR_VERSION}-json \
-                      php7.${PHP_MINOR_VERSION}-gd \
-                      php7.${PHP_MINOR_VERSION}-intl \
-                      php7.${PHP_MINOR_VERSION}-mbstring \
-                      php7.${PHP_MINOR_VERSION}-xml \
-                      php7.${PHP_MINOR_VERSION}-zip \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
                       php7.${PHP_MINOR_VERSION}-fpm \
+                      php7.${PHP_MINOR_VERSION}-intl \
+                      php7.${PHP_MINOR_VERSION}-json \
                       php7.${PHP_MINOR_VERSION}-readline \
+                      php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  phpdismod \
                      ftp \
                      shmop \
                      wddx \
-    &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
-    &&  ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm \
+    &&  ln -s /usr/sbin/php-fpm7.${PHP_MINOR_VERSION} /usr/sbin/php-fpm \
     &&  mkdir /var/log/php \
     &&  ln -sf /proc/1/fd/2 /var/log/php/php7.${PHP_MINOR_VERSION}-fpm.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/www.access.log \
-    &&  ln -sf /dev/null    /var/log/php/www.slow.log \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
+    &&  ln -sf /dev/null    /var/log/php/www.slow.log
 
 SHELL ["/bin/sh", "-c"]
 
@@ -53,16 +38,14 @@ RUN set -eux \
     &&  chmod 700 /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d \
     &&  chmod 600 /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d/www.conf \
     &&  chown -R www-data /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d \
-    &&  touch /etc/msmtprc \
-    &&  chown www-data /etc/msmtprc \
-    &&  chmod 640 /etc/msmtprc
+    &&  chown www-data /etc/msmtprc
 
-COPY entrypoint /usr/local/bin/entrypoint
+COPY entrypoint.sh /usr/local/bin/
 
 LABEL sh.factory.probe.fpm.path=/__path
 
 EXPOSE 9000
 USER www-data
 
-ENTRYPOINT ["entrypoint"]
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/sbin/php-fpm"]

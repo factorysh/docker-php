@@ -7,13 +7,17 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
-                  curl \
-                  ca-certificates \
                   apt-transport-https \
-                  lsb-release \
                   ca-certificates \
+                  curl \
+                  lsb-release \
+                  msmtp \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
+    &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
+    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log \
+    &&  touch /etc/msmtprc \
+    &&  chmod 640 /etc/msmtprc \
     &&  curl https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php-sury.gpg \
     &&  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php-sury.list \
     &&  apt-get update \
@@ -22,12 +26,18 @@ RUN set -eux \
                   php7.${PHP_MINOR_VERSION}-curl \
                   php7.${PHP_MINOR_VERSION}-gd \
                   php7.${PHP_MINOR_VERSION}-mbstring \
+                  php7.${PHP_MINOR_VERSION}-mysql \
                   php7.${PHP_MINOR_VERSION}-xml \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
-    &&  useradd php --uid ${uid} --shell /bin/bash
+    &&  useradd php --uid ${uid} --shell /bin/bash \
+    && chown php /etc/msmtprc
+
+COPY config_msmtp.sh /usr/local/bin/
+COPY entrypoint_cli.sh /usr/local/bin
 
 USER php
 WORKDIR /home/php
 
+ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]

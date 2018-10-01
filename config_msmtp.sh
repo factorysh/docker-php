@@ -27,13 +27,3 @@ account default : factory
 echo "$conf" > /etc/msmtprc
 
 fi
-
-WORKERS=${WORKERS:-5}
-sed -i "s/^pm\\.max_children = .*$/pm\\.max_children = ${WORKERS}/" "/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
-
-# first arg is `-f` or `--some-option`
-if [ "${1#-}" != "$1" ]; then
-	set -- php-fpm "$@"
-fi
-
-/bin/sh -c "$@"
