@@ -28,7 +28,7 @@ build: 7.0 7.1 7.2
 				--build-arg PHP_MINOR_VERSION=0 \
 				.
 
-7.1-fpm:
+7.1-fpm: 7.1-cli
 	docker build \
 				-t bearstech/php:7.1 \
 				-f Dockerfile.7.x \
@@ -49,7 +49,7 @@ build: 7.0 7.1 7.2
 				--build-arg PHP_MINOR_VERSION=1 \
 				.
 
-7.2-fpm:
+7.2-fpm: 7.2-cli
 	docker build \
 				-t bearstech/php:7.2 \
 				-f Dockerfile.7.x \
