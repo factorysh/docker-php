@@ -28,6 +28,7 @@ RUN set -eux \
                   php7.${PHP_MINOR_VERSION}-mbstring \
                   php7.${PHP_MINOR_VERSION}-mysql \
                   php7.${PHP_MINOR_VERSION}-xml \
+                  php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  useradd php --uid ${uid} --shell /bin/bash \
