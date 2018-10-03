@@ -22,6 +22,7 @@ RUN set -eux \
                      ftp \
                      shmop \
                      wddx \
+                     zip \
     &&  ln -s /usr/sbin/php-fpm7.${PHP_MINOR_VERSION} /usr/sbin/php-fpm \
     &&  mkdir /var/log/php \
     &&  ln -sf /proc/1/fd/2 /var/log/php/php7.${PHP_MINOR_VERSION}-fpm.log \

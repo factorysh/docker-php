@@ -13,6 +13,7 @@ RUN set -eux \
                     php7.0-mbstring \
                     php7.0-mysql \
                     php7.0-xml \
+                    php7.0-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
