@@ -9,7 +9,7 @@ services:
       - ./www:/var/www/web
     links:
       - mails
-    user: ${UID}
+    user: ${USER}
     environment:
       MAILS_TOKEN: password
       MAILS_PORT: 1025
