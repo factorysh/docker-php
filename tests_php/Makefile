@@ -13,7 +13,8 @@ do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf tes
 test_with_nginx:
 	@echo "== Test Nginx for $(PHP_VERSION) with USER $(USER) =="
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
-	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose up -d --build nginx
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build nginx php
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose up -d nginx
 	sleep $(SLEEP)
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
@@ -21,7 +22,7 @@ test_with_nginx:
 test_with_nginx_and_traefik:
 	@echo "== Test Nginx & Traefik for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml down --remove-orphans
-	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml build nginx
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml build nginx php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml up -d nginx traefik
 	sleep $(SLEEP)
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml up --abort-on-container-exit --exit-code-from client client

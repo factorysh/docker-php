@@ -4,12 +4,14 @@ version: "3"
 
 services:
   php:
-    image: bearstech/php:${PHP_VERSION}
-    volumes:
-      - ./www:/var/www/web
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile.php
+      args:
+        UID: ${USER}
+        PHP_VERSION: ${PHP_VERSION}
     links:
       - mails
-    user: ${USER}
     environment:
       MAILS_TOKEN: password
       MAILS_PORT: 1025
