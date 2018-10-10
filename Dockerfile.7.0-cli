@@ -1,11 +1,10 @@
 FROM bearstech/debian:stretch
 
-ARG uid=1000
-
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
                     ca-certificates \
+                    gettext-base \
                     msmtp \
                     php7.0-cli \
                     php7.0-curl \
@@ -17,14 +16,10 @@ RUN set -eux \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log \
-    &&  useradd php --uid ${uid} --shell /bin/bash
+    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
-
-USER php
-WORKDIR /home/php
 
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]
