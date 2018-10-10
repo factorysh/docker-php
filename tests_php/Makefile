@@ -4,6 +4,7 @@
 PHP_VERSION = ""
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 UID:=$(shell id -u)
+SLEEP:=2
 
 all: do_docker_compose
 
@@ -13,7 +14,7 @@ test_with_nginx:
 	@echo "== Test Nginx for $(PHP_VERSION) with UID $(UID) =="
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose up -d --build nginx
-	sleep 1
+	sleep $(SLEEP)
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose down --remove-orphans
 
@@ -22,7 +23,7 @@ test_with_nginx_and_traefik:
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose -f traefik-compose.yml down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose -f traefik-compose.yml build nginx
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose -f traefik-compose.yml up -d nginx traefik
-	sleep 1
+	sleep $(SLEEP)
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose -f traefik-compose.yml up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=$(PHP_VERSION) UID=$(UID) docker-compose -f traefik-compose.yml down --remove-orphans
 
