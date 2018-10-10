@@ -50,7 +50,6 @@ LABEL sh.factory.probe.fpm.path=/__path
 EXPOSE 9000
 
 COPY entrypoint.sh /usr/local/bin/
-USER www-data
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/sbin/php-fpm7.0"]
