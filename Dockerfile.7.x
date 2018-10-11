@@ -28,7 +28,7 @@ RUN set -eux \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/www.access.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/.access.log \
-    &&  ln -sf /dev/null    /var/log/php/www.slow.log
+    &&  ln -sf /proc/1/fd/2 /var/log/php/www.slow.log
 
 SHELL ["/bin/sh", "-c"]
 

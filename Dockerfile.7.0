@@ -29,8 +29,7 @@ RUN set -eux \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/www.access.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/.access.log \
-    &&  ln -sf /dev/null    /var/log/php/www.slow.log \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
+    &&  ln -sf /proc/1/fd/2 /var/log/php/www.slow.log
 
 COPY conf/php.ini /etc/php/7.0/fpm/php.ini
 COPY conf/www.conf /opt/www.conf.tpl
