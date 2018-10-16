@@ -2,5 +2,6 @@
 
 gossfile:
     php_version.yaml: {}
+    php_cli_info.yaml: {}
     php_test.yaml: {}
     php_curl.yaml: {}
