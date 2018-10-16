@@ -34,6 +34,7 @@ RUN set -eux \
     &&  ln -sf /dev/null    /var/log/php/www.slow.log \
     &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
 
+COPY conf/php.ini /etc/php/7.0/fpm/php.ini
 COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 

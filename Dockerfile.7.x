@@ -32,6 +32,7 @@ RUN set -eux \
 
 SHELL ["/bin/sh", "-c"]
 
+COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/fpm/php.ini
 COPY conf/www.conf /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d/www.conf
 COPY conf/php7.${PHP_MINOR_VERSION}-fpm.conf /etc/php/7.${PHP_MINOR_VERSION}/fpm/php-fpm.conf
 
