@@ -10,3 +10,4 @@ http:
     status: 200
     body:
       - />upload_max_filesize<\/td><td.*>100M<\/td><td.*>100M<\/td>/
+      - />post_max_size<\/td><td.*>100M<\/td><td.*>100M<\/td>/
