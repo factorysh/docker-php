@@ -1,7 +1,8 @@
 FROM bearstech/debian:stretch
 
 ARG PHP_MINOR_VERSION
-ARG uid=1000
+
+ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \
@@ -10,6 +11,7 @@ RUN set -eux \
                   apt-transport-https \
                   ca-certificates \
                   curl \
+                  gettext-base \
                   lsb-release \
                   msmtp \
     &&  apt-get clean \
@@ -31,14 +33,10 @@ RUN set -eux \
                   php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
-    &&  useradd php --uid ${uid} --shell /bin/bash \
-    && chown php /etc/msmtprc
+    &&  chmod 666 /etc/msmtprc
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
-
-USER php
-WORKDIR /home/php
 
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]

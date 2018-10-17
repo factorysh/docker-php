@@ -1,13 +1,11 @@
 FROM bearstech/php-cli:7.0
 
 ENV PHP_VERSION 7.0
-
-USER root
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
-                ca-certificates \
                 php-memcached \
                 php-xdebug \
                 php7.0-curl \
@@ -31,27 +29,27 @@ RUN set -eux \
     &&  ln -sf /proc/1/fd/2 /var/log/php/php7.0-fpm.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/www.access.log \
-    &&  ln -sf /dev/null    /var/log/php/www.slow.log \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
+    &&  ln -sf /proc/1/fd/1 /var/log/php/.access.log \
+    &&  ln -sf /proc/1/fd/2 /var/log/php/www.slow.log
 
 COPY conf/php.ini /etc/php/7.0/fpm/php.ini
-COPY conf/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+COPY conf/www.conf /opt/www.conf.tpl
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 
 RUN set -eux \
-    &&  chmod 700 /etc/php/7.0/fpm/pool.d \
-    &&  chmod 600 /etc/php/7.0/fpm/pool.d/www.conf \
-    &&  chown -R www-data /etc/php/7.0/fpm/pool.d \
+    &&  chmod 777 /etc/php/7.0/fpm/pool.d \
+    &&  chmod 444 /opt/www.conf.tpl \
+    &&  rm -f /etc/php/7.0/fpm/pool.d/www.conf \
+    #&&  chown -R www-data /etc/php/7.0/fpm/pool.d \
     &&  touch /etc/msmtprc \
-    &&  chown www-data /etc/msmtprc \
-    &&  chmod 640 /etc/msmtprc
+    #&&  chown www-data /etc/msmtprc \
+    &&  chmod 666 /etc/msmtprc
 
 LABEL sh.factory.probe.fpm.path=/__path
 
 EXPOSE 9000
 
 COPY entrypoint.sh /usr/local/bin/
-USER www-data
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/sbin/php-fpm7.0"]

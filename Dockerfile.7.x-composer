@@ -4,9 +4,11 @@ FROM bearstech/php-cli:7.${PHP_MINOR_VERSION}
 ARG PHP_MINOR_VERSION
 ARG uid=1001
 
+VOLUME /.cache
 ENV COMPOSER_CACHE_DIR=/.cache
 ENV COMPOSER_NO_INTERACTION=1
 ENV XDG_CONFIG_HOME=/home/composer
+ENV DEBIAN_FRONTEND noninteractive
 
 USER root
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
