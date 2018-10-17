@@ -11,4 +11,4 @@ http:
     body:
       - />upload_max_filesize<\/td><td.*>100M<\/td><td.*>100M<\/td>/
       - />post_max_size<\/td><td.*>100M<\/td><td.*>100M<\/td>/
-      - />memory_limit<\/td><td.*>64M<\/td><td.*>64M<\/td>/
+      - />memory_limit<\/td><td.*>128M<\/td><td.*>128M<\/td>/
