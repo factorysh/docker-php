@@ -5,6 +5,7 @@ ARG PHP_MINOR_VERSION
 # Yes, twice ARG, it's a bug
 
 ENV PHP_VERSION=7.${PHP_MINOR_VERSION}
+ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \

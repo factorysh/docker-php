@@ -1,6 +1,7 @@
 FROM bearstech/php-cli:7.0
 
 ENV PHP_VERSION 7.0
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -eux \
     &&  apt-get update \
