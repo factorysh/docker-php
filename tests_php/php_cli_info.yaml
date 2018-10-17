@@ -1,0 +1,7 @@
+---
+
+command:
+  'php -r "phpinfo();"':
+    exit-status: 0
+    stdout:
+      - "memory_limit => -1 => -1"
