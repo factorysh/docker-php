@@ -22,7 +22,6 @@ RUN set -eux \
                shmop \
                wddx \
                xdebug \
-               zip \
     &&  phpenmod \
               msgpack \
     &&  mkdir /var/log/php \
