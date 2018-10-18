@@ -11,6 +11,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
+                      dumb-init \
                       php7.${PHP_MINOR_VERSION}-fpm \
                       php7.${PHP_MINOR_VERSION}-intl \
                       php7.${PHP_MINOR_VERSION}-json \
@@ -50,4 +51,4 @@ LABEL sh.factory.probe.fpm.path=/__path
 EXPOSE 9000
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["/usr/sbin/php-fpm"]
+CMD ["dumb-init", "/usr/sbin/php-fpm"]
