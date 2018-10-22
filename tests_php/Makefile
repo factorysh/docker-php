@@ -39,6 +39,7 @@ test_telegraf:
 test_smtp:
 	@echo "== Test SMTP for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build nginx php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \
