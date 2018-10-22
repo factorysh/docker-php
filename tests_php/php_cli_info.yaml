@@ -9,4 +9,7 @@ command:
       - "gzip compression => enabled"
       - "Zip => enabled"
       - "short_open_tag => Off => Off"
-      - "sendmail_path => /usr/local/bin/sendmail => /usr/local/bin/sendmail"
+      - >-
+          sendmail_path
+          => /usr/local/bin/sendmail -t
+          => /usr/local/bin/sendmail -t
