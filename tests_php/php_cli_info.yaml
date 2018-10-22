@@ -8,3 +8,8 @@ command:
       - "ZIP-based phar archives => enabled"
       - "gzip compression => enabled"
       - "Zip => enabled"
+      - "short_open_tag => Off => Off"
+      - >-
+          sendmail_path
+          => /usr/local/bin/sendmail -t
+          => /usr/local/bin/sendmail -t

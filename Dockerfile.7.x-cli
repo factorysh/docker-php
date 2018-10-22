@@ -37,6 +37,8 @@ RUN set -eux \
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
+COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/php.ini
+COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
 
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]

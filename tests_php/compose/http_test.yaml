@@ -12,3 +12,5 @@ http:
       - />upload_max_filesize<\/td><td.*>100M<\/td><td.*>100M<\/td>/
       - />post_max_size<\/td><td.*>100M<\/td><td.*>100M<\/td>/
       - />memory_limit<\/td><td.*>128M<\/td><td.*>128M<\/td>/
+      - />short_open_tag<\/td><td.*>Off<\/td><td.*>Off<\/td>/
+      - />sendmail_path<\/td><td.*>/usr/local/bin/sendmail&nbsp;-t<\/td><td.*>/usr/local/bin/sendmail&nbsp;-t<\/td>/
