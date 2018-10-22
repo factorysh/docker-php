@@ -14,3 +14,9 @@ command:
 # recipients=toto@toto.com mailsize=66 smtpstatus=250
 # smtpmsg='250 Ok: queued as
 # XzKjCWk60aMbGDORQ1rpSTSqgCLpZWFir3KIXsZlC9s=@mailhog.example' exitcode=EX_OK
+
+  "php -r \"if(mail('toto@toto.com', 'subject', 'body')){echo 'OK';}\"":
+    exit-status: 0
+    timeout: 10000
+    stdout:
+      - OK
