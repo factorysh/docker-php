@@ -6,9 +6,3 @@ command:
         timeout: 120000
         stdout:
             - Hello world
-
-    "php -r \"if(mail('dontneedemailtosuccess', 'subject', 'body')){echo 'OK';}\"":
-        exit-status: 0
-        timeout: 10000
-        stdout:
-            - OK
