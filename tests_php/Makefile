@@ -17,6 +17,7 @@ test_with_nginx:
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose up -d nginx
 	sleep $(SLEEP)
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose up --abort-on-container-exit --exit-code-from client client
+	docker exec tests_php_php_1 ls -l /proc/1/fd | grep " [1-2] -> pipe:"
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 
 test_with_nginx_and_traefik:

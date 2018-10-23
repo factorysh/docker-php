@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
+                dumb-init \
                 php-memcached \
                 php-xdebug \
                 php7.0-curl \
@@ -51,4 +52,4 @@ EXPOSE 9000
 COPY entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["/usr/sbin/php-fpm7.0"]
+CMD ["dumb-init", "/usr/sbin/php-fpm7.0"]
