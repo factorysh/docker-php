@@ -1,6 +1,6 @@
 ---
 
 command:
-    "mkdir /composer && cp composer.json /composer && composer install -d /composer":
+    "mkdir /c && cp composer.json /c && composer install -d /c":
         exit-status: 0
         timeout: 50000
