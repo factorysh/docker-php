@@ -9,7 +9,6 @@ ENV COMPOSER_NO_INTERACTION=1
 ENV XDG_CONFIG_HOME=/home/composer
 ENV DEBIAN_FRONTEND noninteractive
 
-USER root
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux \
