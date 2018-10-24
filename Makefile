@@ -201,4 +201,6 @@ tests-7.1: test-7.1 test-cli-7.1 test-composer-7.1 test-html-7.1
 
 tests-7.2: test-7.2 test-cli-7.2 test-composer-7.2 test-html-7.2
 
+down:
+
 tests: tests-7.0 tests-7.1 tests-7.2
