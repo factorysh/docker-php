@@ -2,10 +2,9 @@ ARG PHP_MINOR_VERSION
 FROM bearstech/php-cli:7.${PHP_MINOR_VERSION}
 
 ARG PHP_MINOR_VERSION
-ARG uid=1001
 
-VOLUME /.cache
-ENV COMPOSER_CACHE_DIR=/.cache
+VOLUME /.composer
+ENV COMPOSER_CACHE_DIR=/.composer
 ENV COMPOSER_NO_INTERACTION=1
 ENV XDG_CONFIG_HOME=/home/composer
 ENV DEBIAN_FRONTEND noninteractive
@@ -35,14 +34,8 @@ RUN set -eux \
     &&  php -r "if (hash_file('SHA384', 'composer-setup.php') === '${SHA384_COMPOSER_SETUP}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     &&  php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     &&  php -r "unlink('composer-setup.php');" \
-    &&  echo "${SHA256_COMPOSER_BIN}  /usr/local/bin/composer" | sha256sum -c \
-    &&  useradd composer --uid ${uid} --shell /bin/bash \
-    &&  mkdir /composer \
-    &&  chown -R composer:composer /composer
+    &&  echo "${SHA256_COMPOSER_BIN}  /usr/local/bin/composer" | sha256sum -c
 
 SHELL ["/bin/sh", "-c"]
-
-USER composer
-WORKDIR /composer
 
 CMD ["composer"]
