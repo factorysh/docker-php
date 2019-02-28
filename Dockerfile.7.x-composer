@@ -24,15 +24,15 @@ RUN set -eux \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/*
 
-ENV SHA384_COMPOSER_SETUP 93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8
-ENV SHA256_COMPOSER_BIN ec3428d049ae8877f7d102c2ee050dbd51a160fc2dde323f3e126a3b3846750e
+ENV SHA384_COMPOSER_SETUP 48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5
+ENV SHA256_COMPOSER_BIN 1722826c8fbeaf2d6cdd31c9c9af38694d6383a0f2bf476fe6bbd30939de058a
 
 RUN set -eux \
     # Installer composer the standard way from getcomposer.org
-    &&  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    &&  php -r "if (hash_file('SHA384', 'composer-setup.php') === '${SHA384_COMPOSER_SETUP}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-    &&  php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    &&  php -r "unlink('composer-setup.php');" \
+    &&  php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" \
+    &&  php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '${SHA384_COMPOSER_SETUP}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('/tmp/composer-setup.php'); } echo PHP_EOL;" \
+    &&  php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    &&  php -r "unlink('/tmp/composer-setup.php');" \
     &&  echo "${SHA256_COMPOSER_BIN}  /usr/local/bin/composer" | sha256sum -c
 
 SHELL ["/bin/sh", "-c"]
