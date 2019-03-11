@@ -16,41 +16,41 @@ build: 7.0 7.1 7.2
 7.0: 7.0-fpm 7.0-composer 7.0-cli
 
 7.0-fpm: 7.0-cli
-	docker build -t bearstech/php:7.0 -f Dockerfile.7.0 .
+	docker build --no-cache -t bearstech/php:7.0 -f Dockerfile.7.0 .
 
 7.0-cli:
-	docker build -t bearstech/php-cli:7.0 -f Dockerfile.7.0-cli .
+	docker build --no-cache -t bearstech/php-cli:7.0 -f Dockerfile.7.0-cli .
 
 7.0-composer: 7.0-cli
-	docker build \
+	docker build --no-cache \
 				-t bearstech/php-composer:7.0 \
 				-f Dockerfile.7.x-composer \
 				--build-arg PHP_MINOR_VERSION=0 \
 				.
 
 7.1-fpm: 7.1-cli
-	docker build \
+	docker build --no-cache \
 				-t bearstech/php:7.1 \
 				-f Dockerfile.7.x \
 				--build-arg PHP_MINOR_VERSION=1 \
 				.
 
 7.1-cli:
-	docker build \
+	docker build --no-cache \
 				-t bearstech/php-cli:7.1 \
 				-f Dockerfile.7.x-cli \
 				--build-arg PHP_MINOR_VERSION=1 \
 				.
 
 7.1-composer: 7.1-cli
-	docker build \
+	docker build --no-cache \
 				-t bearstech/php-composer:7.1 \
 				-f Dockerfile.7.x-composer \
 				--build-arg PHP_MINOR_VERSION=1 \
 				.
 
 7.2-fpm: 7.2-cli
-	docker build \
+	docker build --no-cache \
 				-t bearstech/php:7.2 \
 				-f Dockerfile.7.x \
 				--build-arg PHP_MINOR_VERSION=2 \
@@ -58,7 +58,7 @@ build: 7.0 7.1 7.2
 	docker tag bearstech/php:7.2 bearstech/php:latest
 
 7.2-cli:
-	docker build \
+	docker build --no-cache \
 					-t bearstech/php-cli:7.2 \
 					-f Dockerfile.7.x-cli \
 					--build-arg PHP_MINOR_VERSION=2 \
@@ -66,7 +66,7 @@ build: 7.0 7.1 7.2
 	docker tag bearstech/php-cli:7.2 bearstech/php-cli:latest
 
 7.2-composer: 7.2-cli
-	docker build \
+	docker build --no-cache \
 				-t bearstech/php-composer:7.2 \
 				-f Dockerfile.7.x-composer \
 				--build-arg PHP_MINOR_VERSION=2 \
