@@ -45,7 +45,7 @@ RUN set -eux \
 
 COPY entrypoint.sh /usr/local/bin/
 
-LABEL sh.factory.probe.fpm.path=/__path
+LABEL sh.factory.probe.fpm.path=/__status
 
 EXPOSE 9000
 

@@ -44,7 +44,7 @@ RUN set -eux \
     #&&  chown www-data /etc/msmtprc \
     &&  chmod 666 /etc/msmtprc
 
-LABEL sh.factory.probe.fpm.path=/__path
+LABEL sh.factory.probe.fpm.path=/__status
 
 EXPOSE 9000
 
