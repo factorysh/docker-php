@@ -1,6 +1,7 @@
 .PHONY: tests
 
 GOSS_VERSION := 0.3.6
+GIT_VERSION := $(shell git rev-parse HEAD)
 
 all: pull build
 
@@ -19,7 +20,11 @@ build: 7.0 7.1 7.2
 	docker build --no-cache -t bearstech/php:7.0 -f Dockerfile.7.0 .
 
 7.0-cli:
-	docker build --no-cache -t bearstech/php-cli:7.0 -f Dockerfile.7.0-cli .
+	docker build \
+		--no-cache \
+		--build-arg GIT_VERSION=${GIT_VERSION} \
+		-t bearstech/php-cli:7.0 \
+		-f Dockerfile.7.0-cli .
 
 7.0-composer: 7.0-cli
 	docker build --no-cache \
@@ -37,9 +42,11 @@ build: 7.0 7.1 7.2
 
 7.1-cli:
 	docker build --no-cache \
+				--build-arg GIT_VERSION=${GIT_VERSION} \
 				-t bearstech/php-cli:7.1 \
 				-f Dockerfile.7.x-cli \
 				--build-arg PHP_MINOR_VERSION=1 \
+				--build-arg GIT_VERSION=${GIT_VERSION} \
 				.
 
 7.1-composer: 7.1-cli
@@ -62,6 +69,7 @@ build: 7.0 7.1 7.2
 					-t bearstech/php-cli:7.2 \
 					-f Dockerfile.7.x-cli \
 					--build-arg PHP_MINOR_VERSION=2 \
+					--build-arg GIT_VERSION=${GIT_VERSION} \
 					.
 	docker tag bearstech/php-cli:7.2 bearstech/php-cli:latest
 
