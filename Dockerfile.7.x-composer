@@ -24,8 +24,10 @@ RUN set -eux \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/*
 
-ENV SHA384_COMPOSER_SETUP 48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5
-ENV SHA256_COMPOSER_BIN 1722826c8fbeaf2d6cdd31c9c9af38694d6383a0f2bf476fe6bbd30939de058a
+ARG SHA384_COMPOSER_SETUP
+ARG SHA256_COMPOSER_BIN
+ARG COMPOSER_VERSION
+LABEL com.bearstech.version.composer=${COMPOSER_VERSION}
 
 RUN set -eux \
     # Installer composer the standard way from getcomposer.org
