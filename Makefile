@@ -23,7 +23,7 @@ build: 7.0 7.1 7.2
 7.0-fpm: 7.0-cli
 	docker build --no-cache \
 				-t bearstech/php:7.0 \
-			   	-f Dockerfile.7.0
+			   	-f Dockerfile.7.0 \
 				--build-arg GIT_VERSION=${GIT_VERSION} \
 				--build-arg GIT_DATE="${GIT_DATE}" \
 				.
