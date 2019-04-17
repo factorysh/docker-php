@@ -42,5 +42,8 @@ COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
 ARG GIT_VERSION
 LABEL com.bearstech.source.php=https://github.com/factorysh/docker-php/commit/${GIT_VERSION}
 
+ARG GIT_DATE
+LABEL com.bearstech.date.php=${GIT_DATE}
+
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]
