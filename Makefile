@@ -4,8 +4,8 @@ GOSS_VERSION := 0.3.6
 GIT_VERSION := $(shell git rev-parse HEAD)
 GIT_DATE := $(shell git show -s --format=%ci HEAD)
 SHA384_COMPOSER_SETUP ?= $(shell curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
-SHA256_COMPOSER_BIN ?= 4e4c1cd74b54a26618699f3190e6f5fc63bb308b13fa660f71f2a2df047c0e17
-COMPOSER_VERSION ?= 1.8.5
+SHA256_COMPOSER_BIN ?= b66f9b53db72c5117408defe8a1e00515fe749e97ce1b0ae8bdaa6a5a43dd542
+COMPOSER_VERSION ?= 1.8.6
 
 all: pull build
 
