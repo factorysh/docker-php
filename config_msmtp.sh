@@ -25,6 +25,6 @@ password       $MAILS_TOKEN
 account default : factory
 "
 
-echo "$conf" > ${MSMTPRC_DESTINATION:-/etc/msmtprc}
+echo "$conf" > "${MSMTPRC_DESTINATION:-/etc/msmtprc}"
 
 fi
