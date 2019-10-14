@@ -39,11 +39,23 @@ COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
 COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/php.ini
 COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
-ARG GIT_VERSION
-LABEL com.bearstech.source.php=https://github.com/factorysh/docker-php/commit/${GIT_VERSION}
 
-ARG GIT_DATE
-LABEL com.bearstech.date.php=${GIT_DATE}
 
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]
+
+# generated labels
+
+ARG GIT_VERSION
+ARG GIT_DATE
+ARG BUILD_DATE
+
+LABEL com.bearstech.image.revision_date=${GIT_DATE}
+
+LABEL org.opencontainers.image.authors=Bearstech
+
+LABEL org.opencontainers.image.revision=${GIT_VERSION}
+LABEL org.opencontainers.image.created=${BUILD_DATE}
+
+LABEL org.opencontainers.image.url=https://github.com/factorysh/docker-php
+LABEL org.opencontainers.image.source=https://github.com/factorysh/docker-php/blob/${GIT_VERSION}/Dockerfile.7.x-cli

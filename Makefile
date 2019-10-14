@@ -1,8 +1,9 @@
+
+include Makefile.build_args
+
 .PHONY: tests
 
 GOSS_VERSION := 0.3.6
-GIT_VERSION := $(shell git rev-parse HEAD)
-GIT_DATE := $(shell git show -s --format=%ci HEAD)
 SHA384_COMPOSER_SETUP ?= $(shell curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN ?= c9dff69d092bdec14dee64df6677e7430163509798895fbd54891c166c5c0875
 COMPOSER_VERSION ?= 1.9.0
@@ -21,29 +22,26 @@ build: 7.0 7.1 7.2
 7.0: 7.0-fpm 7.0-composer 7.0-cli
 
 7.0-fpm: 7.0-cli
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php:7.0 \
 		-f Dockerfile.7.0 \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		.
 
 7.0-cli:
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		-t bearstech/php-cli:7.0 \
 		-f Dockerfile.7.0-cli .
 
 7.0-composer: 7.0-cli
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 	   	--no-cache \
 		-t bearstech/php-composer:7.0 \
 		-f Dockerfile.7.x-composer \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		--build-arg PHP_MINOR_VERSION=0 \
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
@@ -51,32 +49,29 @@ build: 7.0 7.1 7.2
 		.
 
 7.1-fpm: 7.1-cli
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php:7.1 \
 		-f Dockerfile.7.x \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		--build-arg PHP_MINOR_VERSION=1 \
 		.
 
 7.1-cli:
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php-cli:7.1 \
 		-f Dockerfile.7.x-cli \
 		--build-arg PHP_MINOR_VERSION=1 \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		.
 
 7.1-composer: 7.1-cli
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php-composer:7.1 \
 		-f Dockerfile.7.x-composer \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		--build-arg PHP_MINOR_VERSION=1 \
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
@@ -84,34 +79,31 @@ build: 7.0 7.1 7.2
 		.
 
 7.2-fpm: 7.2-cli
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php:7.2 \
 		-f Dockerfile.7.x \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		--build-arg PHP_MINOR_VERSION=2 \
 		.
 	docker tag bearstech/php:7.2 bearstech/php:latest
 
 7.2-cli:
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php-cli:7.2 \
 		-f Dockerfile.7.x-cli \
 		--build-arg PHP_MINOR_VERSION=2 \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		.
 	docker tag bearstech/php-cli:7.2 bearstech/php-cli:latest
 
 7.2-composer: 7.2-cli
-	docker build \
+	 docker build \
+		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php-composer:7.2 \
 		-f Dockerfile.7.x-composer \
-		--build-arg GIT_VERSION=${GIT_VERSION} \
-		--build-arg GIT_DATE="${GIT_DATE}" \
 		--build-arg PHP_MINOR_VERSION=2 \
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
