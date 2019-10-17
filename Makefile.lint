@@ -1,0 +1,8 @@
+
+lint:
+	docker run \
+		--rm -u $(shell id -u) \
+		-v $(HOME)/.cache:/.cache \
+		-v $(shell pwd):/docker-php \
+		-w /docker-php \
+		bearstech/lint
