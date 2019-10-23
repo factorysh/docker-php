@@ -4,12 +4,19 @@ include Makefile.build_args
 
 .PHONY: tests
 
-GOSS_VERSION := 0.3.6
-SHA384_COMPOSER_SETUP ?= $(shell curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
-SHA256_COMPOSER_BIN ?= c9dff69d092bdec14dee64df6677e7430163509798895fbd54891c166c5c0875
-COMPOSER_VERSION ?= 1.9.0
+GOSS_VERSION := 0.3.7
+
+COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | sed -E 's/<p.*<strong>([0-9.]+).*/\1/' | xargs)
+SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
+SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
+
 
 all: pull build
+
+variables:
+	@echo ${COMPOSER_VERSION}
+	@echo ${SHA384_COMPOSER_SETUP}
+	@echo ${SHA256_COMPOSER_BIN}
 
 pull:
 	docker pull bearstech/debian:stretch
