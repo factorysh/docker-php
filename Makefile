@@ -10,15 +10,20 @@ COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="la
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 
-PHP7.1=$(shell curl -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages | grep -C3 "Package: php7.1-fpm$$" | grep Version | cut -f 2 -d ' ')
-
+SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packages -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages)
+VERSION_7_1=$(shell echo "${SURY_VERSIONS}" && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_2=$(shell echo "${SURY_VERSIONS}" && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_3=$(shell echo "${SURY_VERSIONS}" && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
 
 all: pull build
 
 variables:
-	@echo ${COMPOSER_VERSION}
-	@echo ${SHA384_COMPOSER_SETUP}
-	@echo ${SHA256_COMPOSER_BIN}
+	@echo "Composer: ${COMPOSER_VERSION}"
+	@echo "Composer setup: ${SHA384_COMPOSER_SETUP}"
+	@echo "Commposer bin: ${SHA256_COMPOSER_BIN}"
+	@echo "PHP 7.1: ${VERSION_7_1}"
+	@echo "PHP 7.2: ${VERSION_7_2}"
+	@echo "PHP 7.3: ${VERSION_7_3}"
 
 pull:
 	docker pull bearstech/debian:stretch
