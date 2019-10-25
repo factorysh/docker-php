@@ -10,6 +10,8 @@ COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="la
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 
+PHP7.1=$(shell curl -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages | grep -C3 "Package: php7.1-fpm$$" | grep Version | cut -f 2 -d ' ')
+
 
 all: pull build
 
