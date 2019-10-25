@@ -19,8 +19,8 @@ all: pull build
 
 variables:
 	@echo "Composer: ${COMPOSER_VERSION}"
-	@echo "Composer setup: ${SHA384_COMPOSER_SETUP}"
-	@echo "Commposer bin: ${SHA256_COMPOSER_BIN}"
+	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
+	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
 	@echo "PHP 7.1: ${VERSION_7_1}"
 	@echo "PHP 7.2: ${VERSION_7_2}"
 	@echo "PHP 7.3: ${VERSION_7_3}"
