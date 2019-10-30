@@ -2,6 +2,9 @@ FROM bearstech/debian:stretch
 
 ENV DEBIAN_FRONTEND noninteractive
 
+ARG PHP_VERSION
+LABEL php.version=${PHP_VERSION}
+
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \

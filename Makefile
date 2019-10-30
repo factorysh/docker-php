@@ -4,12 +4,28 @@ include Makefile.build_args
 
 .PHONY: tests
 
-GOSS_VERSION := 0.3.6
-SHA384_COMPOSER_SETUP ?= $(shell curl https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
-SHA256_COMPOSER_BIN ?= c9dff69d092bdec14dee64df6677e7430163509798895fbd54891c166c5c0875
-COMPOSER_VERSION ?= 1.9.0
+GOSS_VERSION := 0.3.7
+
+COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | sed -E 's/<p.*<strong>([0-9.]+).*/\1/' | xargs)
+SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
+SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
+
+SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packages -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages)
+VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_0=$(shell curl -sL https://packages.debian.org/fr/stretch/php | grep '<h1>.*php .1:' | sed -E 's/.*\(1:([0-9.+]+)\).*/\1/')
 
 all: pull build
+
+variables:
+	@echo "Composer: ${COMPOSER_VERSION}"
+	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
+	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
+	@echo "${VERSION_7_0}"
+	@echo "${VERSION_7_1}"
+	@echo "${VERSION_7_2}"
+	@echo "${VERSION_7_3}"
 
 pull:
 	docker pull bearstech/debian:stretch
@@ -35,7 +51,9 @@ build: 7.0 7.1 7.2
 		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php-cli:7.0 \
-		-f Dockerfile.7.0-cli .
+		-f Dockerfile.7.0-cli \
+		--build-arg PHP_VERSION=$(VERSION_7_0) \
+		.
 
 7.0-composer: 7.0-cli
 	 docker build \
@@ -65,6 +83,7 @@ build: 7.0 7.1 7.2
 		-t bearstech/php-cli:7.1 \
 		-f Dockerfile.7.x-cli \
 		--build-arg PHP_MINOR_VERSION=1 \
+		--build-arg PHP_VERSION=$(VERSION_7_1) \
 		.
 
 7.1-composer: 7.1-cli
@@ -96,6 +115,7 @@ build: 7.0 7.1 7.2
 		-t bearstech/php-cli:7.2 \
 		-f Dockerfile.7.x-cli \
 		--build-arg PHP_MINOR_VERSION=2 \
+		--build-arg PHP_VERSION=$(VERSION_7_2) \
 		.
 	docker tag bearstech/php-cli:7.2 bearstech/php-cli:latest
 
