@@ -14,6 +14,7 @@ SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packag
 VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
 VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
 VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_0=$(shell curl -sL https://packages.debian.org/fr/stretch/php | grep '<h1>.*php .1:' | sed -E 's/.*\(1:([0-9.+]+)\).*/\1/')
 
 all: pull build
 
@@ -21,6 +22,7 @@ variables:
 	@echo "Composer: ${COMPOSER_VERSION}"
 	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
 	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
+	@echo "${VERSION_7_0}"
 	@echo "${VERSION_7_1}"
 	@echo "${VERSION_7_2}"
 	@echo "${VERSION_7_3}"
@@ -49,7 +51,9 @@ build: 7.0 7.1 7.2
 		$(DOCKER_BUILD_ARGS) \
 		--no-cache \
 		-t bearstech/php-cli:7.0 \
-		-f Dockerfile.7.0-cli .
+		-f Dockerfile.7.0-cli \
+		--build-arg PHP_VERSION=$(VERSION_7_0) \
+		.
 
 7.0-composer: 7.0-cli
 	 docker build \
