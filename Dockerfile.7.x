@@ -8,6 +8,8 @@ ENV PHP_VERSION=7.${PHP_MINOR_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG PHP_VERSION
+LABEL php.version=${PHP_VERSION}
 RUN set -eux \
     && apt-get update \
     && apt-get install -y --no-install-recommends \

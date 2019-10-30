@@ -11,9 +11,9 @@ SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 
 SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packages -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages)
-VERSION_7_1=$(shell echo "${SURY_VERSIONS}" && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
-VERSION_7_2=$(shell echo "${SURY_VERSIONS}" && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
-VERSION_7_3=$(shell echo "${SURY_VERSIONS}" && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
 
 all: pull build
 
@@ -21,9 +21,9 @@ variables:
 	@echo "Composer: ${COMPOSER_VERSION}"
 	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
 	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
-	@echo "PHP 7.1: ${VERSION_7_1}"
-	@echo "PHP 7.2: ${VERSION_7_2}"
-	@echo "PHP 7.3: ${VERSION_7_3}"
+	@echo "${VERSION_7_1}"
+	@echo "${VERSION_7_2}"
+	@echo "${VERSION_7_3}"
 
 pull:
 	docker pull bearstech/debian:stretch
@@ -79,6 +79,7 @@ build: 7.0 7.1 7.2
 		-t bearstech/php-cli:7.1 \
 		-f Dockerfile.7.x-cli \
 		--build-arg PHP_MINOR_VERSION=1 \
+		--build-arg PHP_VERSION=$(VERSION_7_1) \
 		.
 
 7.1-composer: 7.1-cli
@@ -110,6 +111,7 @@ build: 7.0 7.1 7.2
 		-t bearstech/php-cli:7.2 \
 		-f Dockerfile.7.x-cli \
 		--build-arg PHP_MINOR_VERSION=2 \
+		--build-arg PHP_VERSION=$(VERSION_7_2) \
 		.
 	docker tag bearstech/php-cli:7.2 bearstech/php-cli:latest
 
