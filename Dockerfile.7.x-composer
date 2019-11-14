@@ -21,6 +21,7 @@ RUN set -eux \
                         p7zip \
                         php7.${PHP_MINOR_VERSION}-dev \
                         unzip \
+                        patch \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/*
 
