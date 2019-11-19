@@ -15,11 +15,12 @@ services:
     build:
       context: .
       dockerfile: ./compose/Dockerfile.nginx
-    links:
+    depends_on:
       - php
     ports:
       - 8000
     labels:
+      traefik.enable: 'true'
       traefik.http.routers.phpRouter.rule: Host(`traefik`, `localhost`)
 
   traefik:
@@ -36,7 +37,7 @@ services:
       - ./bin/goss:/usr/local/bin/goss
       - ./compose:/goss
     working_dir: /goss
-    links:
+    depends_on:
       - traefik
     command: >
       goss -g traefik_test.yaml validate
