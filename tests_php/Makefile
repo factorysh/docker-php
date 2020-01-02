@@ -1,7 +1,7 @@
 
 # This makefile is only used by docker-compose
 
-PHP_VERSION = ""
+PHP_VERSION?=""
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 USER:=$(shell id -u)
 SLEEP:=2

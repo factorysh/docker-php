@@ -1,23 +1,25 @@
-FROM bearstech/debian:stretch
+ARG DEBIAN_VERSION
+FROM bearstech/debian:${DEBIAN_VERSION}
 
 ENV DEBIAN_FRONTEND noninteractive
 
 ARG PHP_VERSION
 LABEL php.version=${PHP_VERSION}
 
+ARG PHP_MINOR_VERSION
 RUN set -eux \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
                     ca-certificates \
                     gettext-base \
                     msmtp \
-                    php7.0-cli \
-                    php7.0-curl \
-                    php7.0-gd \
-                    php7.0-mbstring \
-                    php7.0-mysql \
-                    php7.0-xml \
-                    php7.0-zip \
+                    php7.${PHP_MINOR_VERSION}-cli \
+                    php7.${PHP_MINOR_VERSION}-curl \
+                    php7.${PHP_MINOR_VERSION}-gd \
+                    php7.${PHP_MINOR_VERSION}-mbstring \
+                    php7.${PHP_MINOR_VERSION}-mysql \
+                    php7.${PHP_MINOR_VERSION}-xml \
+                    php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
@@ -25,8 +27,8 @@ RUN set -eux \
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
-COPY conf/php.ini /etc/php/7.0/cli/php.ini
-COPY conf/memory.ini /etc/php/7.0/cli/conf.d/01-memory.ini
+COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/php.ini
+COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
 
 
 ENTRYPOINT ["entrypoint_cli.sh"]
@@ -46,4 +48,4 @@ LABEL org.opencontainers.image.revision=${GIT_VERSION}
 LABEL org.opencontainers.image.created=${BUILD_DATE}
 
 LABEL org.opencontainers.image.url=https://github.com/factorysh/docker-php
-LABEL org.opencontainers.image.source=https://github.com/factorysh/docker-php/blob/${GIT_VERSION}/Dockerfile.7.0-cli
+LABEL org.opencontainers.image.source=https://github.com/factorysh/docker-php/blob/${GIT_VERSION}/Dockerfile.debian-cli
