@@ -49,6 +49,8 @@ build: 7.0 7.1 7.2 7.3
 		--no-cache \
 		-t bearstech/php:7.0 \
 		-f Dockerfile.debian \
+		--build-arg PHP_VERSION=$(VERSION_7_0) \
+		--build-arg PHP_MINOR_VERSION=0 \
 		.
 
 7.0-cli:
@@ -59,6 +61,7 @@ build: 7.0 7.1 7.2 7.3
 		-f Dockerfile.debian-cli \
 		--build-arg DEBIAN_VERSION=stretch \
 		--build-arg PHP_VERSION=$(VERSION_7_0) \
+		--build-arg PHP_MINOR_VERSION=0 \
 		.
 
 7.0-composer: 7.0-cli
