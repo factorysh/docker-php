@@ -1,21 +1,24 @@
-FROM bearstech/php-cli:7.0
+ARG PHP_MINOR_VERSION
+FROM bearstech/php-cli:7.${PHP_MINOR_VERSION}
 
-ENV PHP_VERSION 7.0
+ARG PHP_MINOR_VERSION
+ENV PHP_VERSION 7.${PHP_MINOR_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -eux \
+    &&  export http_proxy=${HTTP_PROXY} \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
                 dumb-init \
                 php-memcached \
                 php-xdebug \
-                php7.0-curl \
-                php7.0-fpm \
-                php7.0-gd \
-                php7.0-json \
-                php7.0-mbstring \
-                php7.0-mysql \
-                php7.0-xml \
+                php7.${PHP_MINOR_VERSION}-curl \
+                php7.${PHP_MINOR_VERSION}-fpm \
+                php7.${PHP_MINOR_VERSION}-gd \
+                php7.${PHP_MINOR_VERSION}-json \
+                php7.${PHP_MINOR_VERSION}-mbstring \
+                php7.${PHP_MINOR_VERSION}-mysql \
+                php7.${PHP_MINOR_VERSION}-xml \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  phpdismod \
@@ -26,20 +29,21 @@ RUN set -eux \
     &&  phpenmod \
               msgpack \
     &&  mkdir /var/log/php \
-    &&  ln -sf /proc/1/fd/2 /var/log/php/php7.0-fpm.log \
+    &&  ln -sf /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm \
+    &&  ln -sf /proc/1/fd/2 /var/log/php/php7.${PHP_MINOR_VERSION}-fpm.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/www.access.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.slow.log
 
-COPY conf/php.ini /etc/php/7.0/fpm/php.ini
+COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/fpm/php.ini
 COPY conf/www.conf /opt/www.conf.tpl
-COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+COPY conf/php7.${PHP_MINOR_VERSION}-fpm.conf /etc/php/7.${PHP_MINOR_VERSION}/fpm/php-fpm.conf
 
 RUN set -eux \
-    &&  chmod 777 /etc/php/7.0/fpm/pool.d \
+    &&  chmod 777 /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d \
     &&  chmod 444 /opt/www.conf.tpl \
-    &&  rm -f /etc/php/7.0/fpm/pool.d/www.conf \
-    #&&  chown -R www-data /etc/php/7.0/fpm/pool.d \
+    &&  rm -f /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d/www.conf \
+    #&&  chown -R www-data /etc/php/7.${PHP_MINOR_VERSION}/fpm/pool.d \
     &&  touch /etc/msmtprc \
     #&&  chown www-data /etc/msmtprc \
     &&  chmod 666 /etc/msmtprc
@@ -51,7 +55,7 @@ EXPOSE 9000
 COPY entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["dumb-init", "/usr/sbin/php-fpm7.0"]
+CMD ["dumb-init", "/usr/sbin/php-fpm"]
 
 # generated labels
 
