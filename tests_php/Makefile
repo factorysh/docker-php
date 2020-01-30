@@ -24,7 +24,7 @@ test_with_nginx_and_traefik:
 	@echo "== Test Nginx & Traefik for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml build php
-	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml up -d nginx traefik
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml up -d nginx traefik-php
 	sleep $(SLEEP)
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml up --abort-on-container-exit --exit-code-from client client
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml down --remove-orphans
@@ -40,7 +40,7 @@ test_telegraf:
 test_smtp:
 	@echo "== Test SMTP for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
-	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build nginx php
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \

@@ -21,9 +21,9 @@ services:
       - 8000
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.phpRouter.rule: Host(`traefik`, `localhost`)
+      traefik.http.routers.phpRouter.rule: Host(`traefik-php`, `localhost`)
 
-  traefik:
+  traefik-php:
     image: bearstech/traefik-dev:2.0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -38,7 +38,7 @@ services:
       - ./compose:/goss
     working_dir: /goss
     depends_on:
-      - traefik
+      - traefik-php
     command: >
       goss -g traefik_test.yaml validate
       --max-concurrent 4

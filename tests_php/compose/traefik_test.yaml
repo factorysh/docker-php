@@ -1,7 +1,7 @@
 ---
 
 http:
-    http://traefik/:
+    http://traefik-php/:
         status: 200
         timeout: 5000
         body: [Hello world]
