@@ -21,7 +21,7 @@ services:
   nginx:
     image: bearstech/nginx:1.14
     volumes:
-        - ./compose/nginx.conf:/etc/nginx/sites-enabled/default
+      - ./compose/nginx.conf:/etc/nginx/sites-enabled/default
     links:
       - php
     ports:
