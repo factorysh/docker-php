@@ -12,9 +12,9 @@ services:
         PHP_VERSION: ${PHP_VERSION}
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./compose/Dockerfile.nginx
+    image: bearstech/nginx:1.14
+    volumes:
+      - ./compose/nginx.conf:/etc/nginx/sites-enabled/default
     depends_on:
       - php
     ports:
