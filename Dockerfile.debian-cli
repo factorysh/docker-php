@@ -8,6 +8,7 @@ LABEL php.version=${PHP_VERSION}
 
 ARG PHP_MINOR_VERSION
 RUN set -eux \
+    &&  export http_proxy=${HTTP_PROXY} \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
                     ca-certificates \

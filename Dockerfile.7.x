@@ -9,6 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux \
+    &&  export http_proxy=${HTTP_PROXY} \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
                       dumb-init \
