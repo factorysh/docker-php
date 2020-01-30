@@ -19,9 +19,9 @@ services:
       MAILS_USER: test
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./compose/Dockerfile.nginx
+    image: bearstech/nginx:1.14
+    volumes:
+        - ./compose/nginx.conf:/etc/nginx/sites-enabled/default
     links:
       - php
     ports:
