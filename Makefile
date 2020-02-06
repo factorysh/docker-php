@@ -30,6 +30,7 @@ variables:
 
 pull:
 	docker pull bearstech/debian:stretch
+	docker pull bearstech/debian:buster
 
 build: 7.0 7.1 7.2 7.3
 
@@ -180,14 +181,17 @@ push:
 	docker push bearstech/php:7.0
 	docker push bearstech/php:7.1
 	docker push bearstech/php:7.2
+	docker push bearstech/php:7.3
 	docker push bearstech/php:latest
 	docker push bearstech/php-cli:7.0
 	docker push bearstech/php-cli:7.1
 	docker push bearstech/php-cli:7.2
+	docker push bearstech/php-cli:7.3
 	docker push bearstech/php-cli:latest
 	docker push bearstech/php-composer:7.0
 	docker push bearstech/php-composer:7.1
 	docker push bearstech/php-composer:7.2
+	docker push bearstech/php-composer:7.3
 	docker push bearstech/php-composer:latest
 
 remove_image:
