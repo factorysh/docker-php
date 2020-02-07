@@ -32,6 +32,8 @@ update_composer_version:
 	for f in tests_php/vars/*; do \
 		sed -i 's/composer_version:.*/composer_version: $(COMPOSER_VERSION)/' $$f; \
 	done
+	git add tests_php/vars/*
+	git commit -m "update to composer $(COMPOSER_VERSION)"
 
 pull:
 	docker pull bearstech/debian:stretch
