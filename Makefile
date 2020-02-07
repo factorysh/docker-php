@@ -28,6 +28,11 @@ variables:
 	@echo "${VERSION_7_2}"
 	@echo "${VERSION_7_3}"
 
+update_composer_version:
+	for f in tests_php/vars/*; do \
+		sed -i 's/composer_version:.*/composer_version: $(COMPOSER_VERSION)/' $$f; \
+	done
+
 pull:
 	docker pull bearstech/debian:stretch
 	docker pull bearstech/debian:buster
