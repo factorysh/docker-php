@@ -35,7 +35,7 @@ RUN set -eux \
     # Installer composer the standard way from getcomposer.org
     &&  php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" \
     &&  php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '${SHA384_COMPOSER_SETUP}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('/tmp/composer-setup.php'); } echo PHP_EOL;" \
-    &&  php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    &&  php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} \
     &&  php -r "unlink('/tmp/composer-setup.php');" \
     &&  echo "${SHA256_COMPOSER_BIN}  /usr/local/bin/composer" | sha256sum -c
 

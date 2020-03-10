@@ -1,4 +1,4 @@
 ---
 
 php_version_minor: 3
-composer_version: 1.9.3
+composer_version: 1.10.0
