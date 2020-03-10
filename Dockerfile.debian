@@ -33,7 +33,8 @@ RUN set -eux \
     &&  ln -sf /proc/1/fd/2 /var/log/php/php7.${PHP_MINOR_VERSION}-fpm.log \
     &&  ln -sf /proc/1/fd/2 /var/log/php/www.error.log \
     &&  ln -sf /proc/1/fd/1 /var/log/php/www.access.log \
-    &&  ln -sf /proc/1/fd/2 /var/log/php/www.slow.log
+    &&  ln -sf /proc/1/fd/2 /var/log/php/www.slow.log \
+    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
 
 COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/fpm/php.ini
 COPY conf/www.conf /opt/www.conf.tpl
