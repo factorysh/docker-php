@@ -8,7 +8,7 @@ then
     exit
 fi
 
-find "$DIR" -type f -executable | while read -r cmd
+find "$DIR" -type f -executable | sort -z |while read -r cmd
 do
     echo "Executing $cmd"
     bash -c "$cmd"
