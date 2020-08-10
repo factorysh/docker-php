@@ -31,6 +31,9 @@ COPY entrypoint_cli.sh /usr/local/bin
 COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/php.ini
 COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
 
+# Entrypoint.d
+RUN mkdir /entrypoint.d
+COPY entrypoint.d /entrypoint.d/
 
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]
