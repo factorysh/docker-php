@@ -13,3 +13,5 @@ do
     echo "Executing $cmd"
     bash -c "$cmd"
 done
+
+echo "Exiting entrypoint.d.sh"
