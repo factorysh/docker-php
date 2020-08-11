@@ -48,3 +48,22 @@ and build the image with a `build-arg` like :
 ```
 --build-arg UID=`id -u`
 ```
+
+Entrypoint.d
+------------
+
+All php images implements the concept of `entrypoint.d`.
+
+With `entrypoint.d` user can trigger custom actions before application startup
+(entrypoint).
+
+Just put your scripts and executable in the `/entrypoint.d` directory of your php
+containers. On startup, each executable file inside this directory will be
+run in an independent bash process.
+
+Entrypoint.d runs files marked as executable, in **alphabetical order**. You can look
+for an example inside `/entrypoint.d`
+
+Since each container runs `entrypoint.d` scripts, this is not **the
+recommanded way** to run migrations :
+**if you have N replicas, migrations will be run N times**
