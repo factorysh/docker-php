@@ -20,7 +20,6 @@ RUN set -eux \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log \
     &&  touch /etc/msmtprc \
     &&  chmod 640 /etc/msmtprc \
     &&  curl https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php-sury.gpg \

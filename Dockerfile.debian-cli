@@ -23,8 +23,7 @@ RUN set -eux \
                     php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
-    &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
+    &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
