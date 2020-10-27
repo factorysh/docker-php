@@ -2,6 +2,8 @@
 
 if [[ $MAILS_DOMAIN ]] && [[ $MAILS_USER ]] && [[ $MAILS_TOKEN ]]; then
 
+SENDMAIL_WRAPPER="/opt/sendmail"
+
 # set reasonable defaults
 
 SMTP_PORT=${MAILS_PORT:-25}
@@ -26,5 +28,9 @@ account default : factory
 "
 
 echo "$conf" > "${MSMTPRC_DESTINATION:-/etc/msmtprc}"
+
+if [[ -f "$SENDMAIL_WRAPPER" ]]; then
+    ln -s "$SENDMAIL_WRAPPER" /usr/local/bin/sendmail
+fi
 
 fi
