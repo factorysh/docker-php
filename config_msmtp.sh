@@ -3,6 +3,7 @@
 if [[ $MAILS_DOMAIN ]] && [[ $MAILS_USER ]] && [[ $MAILS_TOKEN ]]; then
 
 SENDMAIL_WRAPPER="/opt/sendmail"
+SENDMAIL_BIN="/usr/local/bin/sendmail"
 
 # set reasonable defaults
 
@@ -29,8 +30,8 @@ account default : factory
 
 echo "$conf" > "${MSMTPRC_DESTINATION:-/etc/msmtprc}"
 
-if [[ -f "$SENDMAIL_WRAPPER" ]]; then
-    ln -s "$SENDMAIL_WRAPPER" /usr/local/bin/sendmail
+if [[ -f "$SENDMAIL_WRAPPER" && ! -f "$SENDMAIL_BIN" ]]; then
+    ln -s "$SENDMAIL_WRAPPER" "$SENDMAIL_BIN"
 fi
 
 fi
