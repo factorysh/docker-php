@@ -12,7 +12,7 @@ conf="
 defaults
 auth           plain
 tls            off
-logfile        /var/log/msmtp.log
+logfile        -
 
 account        factory
 host           $SMTP_HOST
