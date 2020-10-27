@@ -1,0 +1,3 @@
+#!/usr/bin/env dash
+
+msmtp "$@" > /proc/1/fd/2
