@@ -4,7 +4,7 @@ include Makefile.build_args
 
 .PHONY: tests get_goss tests_php/tools
 
-GOSS_VERSION := 0.3.7
+GOSS_VERSION := 0.3.13
 GOSS_GUEST_PATH := tests_php/bin/linux/${GOSS_VERSION}/goss
 GOSS_HOST_PATH := tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
