@@ -228,11 +228,10 @@ get_goss:
 	chmod 755 tests_php/bin/${TARGET}/${GOSS_VERSION}
 
 tests_php/bin/darwin/${GOSS_VERSION}/goss:
-	$(eval TARGET = darwin)
-	make get_goss
+	TARGET=darwin make get_goss
 
 tests_php/bin/linux/${GOSS_VERSION}/goss:
-	make get_goss
+	TARGET=linux make get_goss
 
 tests_php/tools: tests_php/bin/linux/${GOSS_VERSION}/goss tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
