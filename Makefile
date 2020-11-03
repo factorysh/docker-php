@@ -2,9 +2,11 @@
 include Makefile.lint
 include Makefile.build_args
 
-.PHONY: tests
+.PHONY: tests get_goss tests_php/tools
 
 GOSS_VERSION := 0.3.7
+
+OS := $(shell uname | tr A-Z a-z)
 
 COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | ruby -e 'puts /<strong>([0-9.]+)/.match(ARGF.read)[1]')
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
@@ -218,10 +220,21 @@ remove_image:
 clean:
 	rm -rf bin
 
-tests_php/bin/goss:
-	mkdir -p tests_php/bin
-	curl -o tests_php/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
-	chmod 755 tests_php/bin/goss
+
+get_goss:
+	$(eval TARGET ?= linux)
+	mkdir -p tests_php/bin/${TARGET}/${GOSS_VERSION}
+	curl -o tests_php/bin/${TARGET}/${GOSS_VERSION}/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-${TARGET}-amd64
+	chmod 755 tests_php/bin/${TARGET}/${GOSS_VERSION}
+
+tests_php/bin/darwin/${GOSS_VERSION}/goss:
+	$(eval TARGET = darwin)
+	make get_goss
+
+tests_php/bin/linux/${GOSS_VERSION}/goss:
+	make get_goss
+
+tests_php/tools: tests_php/bin/linux/${GOSS_VERSION}/goss tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
 test-7.0: tests_php/bin/goss
 	@docker run --rm -t \
