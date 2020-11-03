@@ -5,6 +5,8 @@ include Makefile.build_args
 .PHONY: tests get_goss tests_php/tools
 
 GOSS_VERSION := 0.3.7
+GOSS_GEST_PATH := tests_php/bin/linux/${GOSS_VERSION}/goss
+GOSS_HOST_PATH := tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
 OS := $(shell uname | tr A-Z a-z)
 
@@ -232,6 +234,9 @@ tests_php/bin/darwin/${GOSS_VERSION}/goss:
 
 tests_php/bin/linux/${GOSS_VERSION}/goss:
 	TARGET=linux make get_goss
+
+tests_php/bin/goss: ${GOSS_GEST_PATH}
+	ln -s ${PWD}/${GOSS_GEST_PATH} $@
 
 tests_php/tools: tests_php/bin/linux/${GOSS_VERSION}/goss tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
