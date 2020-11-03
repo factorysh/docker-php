@@ -5,7 +5,7 @@ GIT_VERSION := $(shell git rev-parse HEAD)
 
 GIT_DATE := $(shell LC_ALL=C git show -s --date=local --format=%cI HEAD | sed 's/T/ /')
 
-BUILD_DATE := $(shell LC_ALL=C date --utc --rfc-3339=seconds)
+BUILD_DATE := $(shell LC_ALL=C date -u +"%Y-%m-%d %H:%M:%S+00:00")
 
 DOCKER_BUILD_ARGS = \
 	--build-arg HTTP_PROXY="${HTTP_PROXY}" \
