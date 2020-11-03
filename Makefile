@@ -225,7 +225,7 @@ get_goss:
 	$(eval TARGET ?= linux)
 	mkdir -p tests_php/bin/${TARGET}/${GOSS_VERSION}
 	curl -o tests_php/bin/${TARGET}/${GOSS_VERSION}/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-${TARGET}-amd64
-	chmod 755 tests_php/bin/${TARGET}/${GOSS_VERSION}
+	chmod 755 tests_php/bin/${TARGET}/${GOSS_VERSION}/goss
 
 tests_php/bin/darwin/${GOSS_VERSION}/goss:
 	TARGET=darwin make get_goss
