@@ -12,7 +12,7 @@ command:
 # 
 # Nov 01 20:00:42 host=mails tls=off auth=on user=test from=test@example.com recipients=toto@toto.com mailsize=67 smtpstatus=250 smtpmsg='250 Ok: queued as y8xcHt7J_ymau93XT0azI9uCDxcgEFVAJfnXo0EmFbI=@mailhog.example' exitcode=EX_OK
 
-  "php -r \"if(mail('toto@toto.com', 'subject', 'body')){echo 'OK';}\"":
+  'php -r "if(mail(''toto@toto.com'', ''subject'', ''body'')){echo ''OK'';}"':
     exit-status: 0
     timeout: 10000
     stdout:
