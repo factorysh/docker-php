@@ -1,0 +1,22 @@
+---
+# Test from the outside if docker logs sees smtp logs
+
+# It should looks like this
+# Nov 04 15:22:42 host=mails tls=off auth=on user=test from=test@example.com
+# recipients=toto@toto.com mailsize=102 smtpstatus=250 smtpmsg='250 Ok: queued
+# as LilHC9UgLoGz7IiNZmuXSGaNTKqFsENYlOkOmik33zc=@mailhog.example'
+# exitcode=EX_OK
+
+command:
+  docker_version:
+    exec: docker logs test_php_smtp_logs
+    exit-status: 0
+    stdout:
+      - host=mails
+      - tls=off
+      - auth=on
+      - user=test
+      - from=test@example.com
+      - recipients=toto@toto.com
+      - smtpstatus=250
+      - exitcode=EX_OK
