@@ -39,7 +39,7 @@ test_telegraf:
 		goss -g /goss/php_status.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 
-test_smtp:
+test_smtp: image
 	@echo "== Test SMTP for $(PHP_VERSION) =="
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build php
@@ -50,5 +50,14 @@ test_smtp:
 		php \
 		/usr/local/bin/goss -g /goss/php_smtp.yaml validate --format documentation
 	docker logs test_php_smtp_logs
-	$(GOSS_HOST_PATH) -g php_smtp_logs.yaml validate --format documentation
+	docker run -ti --rm \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
+		-v $(ROOT_DIR):/goss/ \
+		-w /goss \
+		docker \
+		goss -g php_smtp_logs.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
+
+image:
+	docker build -t docker -f Dockerfile.docker .
