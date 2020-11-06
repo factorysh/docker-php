@@ -50,7 +50,7 @@ test_smtp: image
 		php \
 		/usr/local/bin/goss -g /goss/php_smtp.yaml validate --format documentation
 	docker logs test_php_smtp_logs
-	docker run -ti --rm \
+	docker run --rm \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \
