@@ -49,14 +49,13 @@ test_smtp: image
 		-v $(ROOT_DIR):/goss/ \
 		php \
 		/usr/local/bin/goss -g /goss/php_smtp.yaml validate --format documentation
-	docker logs test_php_smtp_logs
 	docker run --rm \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \
 		-w /goss \
 		docker \
-		goss -g php_smtp_logs.yaml validate --format documentation
+		bash -c "docker logs test_php_smtp_logs && goss -g php_smtp_logs.yaml validate --format documentation"
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 
 image:
