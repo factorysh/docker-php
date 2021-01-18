@@ -9,7 +9,7 @@ ARG PHP_VERSION
 LABEL php.version=${PHP_VERSION}
 RUN set -eux \
     &&  export http_proxy=${HTTP_PROXY} \
-    &&  if [ $PHP_MINOR_VERSION -gt 1 ]; then echo "Package: *\nPin: origin packages.sury.org\nPin-Priority: 100" > /etc/apt/preferences.d/php; fi \
+    &&  if [[ $PHP_MINOR_VERSION -gt 1 ]]; then echo "PHP_VERSION > 7.1" && printf "Package: *\nPin: origin packages.sury.org\nPin-Priority: 100\n" > /etc/apt/preferences.d/php ; fi \
     &&  apt-get update \
     &&  apt-get install -y --no-install-recommends \
                   apt-transport-https \
@@ -25,9 +25,11 @@ RUN set -eux \
     &&  touch /etc/msmtprc \
     &&  chmod 640 /etc/msmtprc \
     &&  curl https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php-sury.gpg \
-    &&  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php-sury.list \
+    &&  echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php-sury.list \
     &&  apt-get update \
+    &&  cat /etc/apt/preferences.d/php \
     &&  apt-get install -y --no-install-recommends \
+                  php7.${PHP_MINOR_VERSION}-common \
                   php7.${PHP_MINOR_VERSION}-cli \
                   php7.${PHP_MINOR_VERSION}-curl \
                   php7.${PHP_MINOR_VERSION}-gd \
