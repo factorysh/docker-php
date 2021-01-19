@@ -236,7 +236,7 @@ tests_php/bin/linux/${GOSS_VERSION}/goss:
 	TARGET=linux make get_goss
 
 tests_php/bin/goss: ${GOSS_GUEST_PATH}
-	ln -sf ${PWD}/${GOSS_GUEST_PATH} $@
+	ln -sf `pwd`/${GOSS_GUEST_PATH} tests_php/bin/goss
 
 tests_php/tools: tests_php/bin/linux/${GOSS_VERSION}/goss tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
