@@ -11,8 +11,10 @@ GOSS_HOST_PATH := tests_php/bin/${OS}/${GOSS_VERSION}/goss
 OS := $(shell uname | tr A-Z a-z)
 
 COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | ruby -e 'puts /<strong>([0-9.]+)/.match(ARGF.read)[1]')
+COMPOSER1_VERSION = $(shell curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | ruby -e 'puts /\/([0-9.]+)\//.match(ARGF.read)[1]')
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
+SHA256_COMPOSER1_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 
 SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packages -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages)
 VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
@@ -86,6 +88,8 @@ build: 7.0 7.1 7.2 7.3
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
 		--build-arg COMPOSER_VERSION=$(COMPOSER_VERSION) \
+		--build-arg SHA256_COMPOSER1_BIN=$(SHA256_COMPOSER1_BIN) \
+		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
 
 7.3-fpm: 7.3-cli
@@ -119,6 +123,8 @@ build: 7.0 7.1 7.2 7.3
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
 		--build-arg COMPOSER_VERSION=$(COMPOSER_VERSION) \
+		--build-arg SHA256_COMPOSER1_BIN=$(SHA256_COMPOSER1_BIN) \
+		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
 
 # sury packages
@@ -152,6 +158,8 @@ build: 7.0 7.1 7.2 7.3
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
 		--build-arg COMPOSER_VERSION=$(COMPOSER_VERSION) \
+		--build-arg SHA256_COMPOSER1_BIN=$(SHA256_COMPOSER1_BIN) \
+		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
 
 7.2-fpm: 7.2-cli
@@ -185,6 +193,8 @@ build: 7.0 7.1 7.2 7.3
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
 		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
 		--build-arg COMPOSER_VERSION=$(COMPOSER_VERSION) \
+		--build-arg SHA256_COMPOSER1_BIN=$(SHA256_COMPOSER1_BIN) \
+		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
 	docker tag bearstech/php-composer:7.2 bearstech/php-composer:latest
 
