@@ -29,7 +29,14 @@ RUN set -eux \
 ARG SHA384_COMPOSER_SETUP
 ARG SHA256_COMPOSER_BIN
 ARG COMPOSER_VERSION
+ARG SHA256_COMPOSER1_BIN
+ARG COMPOSER1_VERSION
 LABEL com.bearstech.version.composer=${COMPOSER_VERSION}
+
+RUN set -eux \
+    && curl -o /tmp/composer1 https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar \
+    && echo "$SHA256_COMPOSER1_BIN" /tmp/composer1 sha256sum -c \
+    && chmod +x /tmp/composer1 /usr/local/bin/composer1
 
 RUN set -eux \
     # Installer composer the standard way from getcomposer.org
