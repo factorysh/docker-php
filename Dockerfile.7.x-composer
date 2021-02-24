@@ -34,7 +34,9 @@ ARG COMPOSER1_VERSION
 LABEL com.bearstech.version.composer=${COMPOSER_VERSION}
 
 RUN set -eux \
-    && curl -o /tmp/composer1 https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar \
+    && if (( ${PHP_MINOR_VERSION} < 3 )); then \
+      wget -O /tmp/composer1 https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar; else \
+      curl -o /tmp/composer1 https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar ;fi \
     && echo "${SHA256_COMPOSER1_BIN} /tmp/composer1" | sha256sum -c \
     && chmod +x /tmp/composer1 \
     && mv /tmp/composer1 /usr/local/bin/composer1
