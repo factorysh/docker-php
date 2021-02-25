@@ -7,7 +7,7 @@ PHP docker images by bearstech
 - cli: [bearstech/php-cli](https://hub.docker.com/r/bearstech/php-cli/)
 - fpm: [bearstech/php](https://hub.docker.com/r/bearstech/php/)
 
-All variants are available as tag for PHP 7.0, 7.1 and 7.2
+All variants are available as tag for PHP 7.0, 7.1, 7.2 and 7.3
 
 Dockerfiles
 -----------
@@ -22,6 +22,12 @@ docker run --rm bearstech/php:7.2
 docker run --rm bearstech/php-cli:7.2
 docker run --rm bearstech/php-composer:7.2
 ```
+
+Composer
+--------
+
+In `bearstech/php-composer` images, `composer` is the latest stable version : 2.x now.
+The `composer1` command is here to help your migration to *Composer 2*, `composer1` version 1.10.x.
 
 User
 ----
