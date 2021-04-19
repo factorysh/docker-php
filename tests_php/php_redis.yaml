@@ -5,3 +5,10 @@ command:
     exit-status: 0
     stdout:
       - Hello Bob
+
+http:
+  http://nginx:8000/info.php:
+    status: 200
+    body:
+      - />session.save_handler<\/td><td.*>redis<\/td><td.*>redis<\/td>/
+      - />session.save_path<\/td><td.*>tcp://.*/
