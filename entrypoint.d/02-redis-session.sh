@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ "${REDIS_SESSION_URL}" != "" ]; then
+if [ -n "${SESSION_REDIS_URL}" ]; then
 	conf="
-php_flag[session.save_handler] = redis
-php_flag[session.path] = ${REDIS_SESSION_URL}
+php_admin_value[session.save_handler] = redis
+php_admin_value[session.save_path] = ${SESSION_REDIS_URL}
 "
 	echo "$conf" >> "/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 	echo "Redis session"
