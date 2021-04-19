@@ -67,4 +67,5 @@ test_redis:
 		-v $(ROOT_DIR)/php_redis.yaml:/goss/php_redis.yaml \
 		client \
 		/usr/local/bin/goss -g /goss/php_redis.yaml validate --format documentation
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml exec redis redis-cli KEYS "*"
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml down --remove-orphans
