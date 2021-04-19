@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "${REDIS_SESSION_URL}" ]; then
+if [ "${REDIS_SESSION_URL}" != "" ]; then
 	conf="
 php_flag[session.save_handler] = redis
 php_flag[session.path] = ${REDIS_SESSION_URL}
