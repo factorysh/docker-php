@@ -8,7 +8,7 @@ SLEEP:=2
 
 all: do_docker_compose
 
-do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf test_smtp
+do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf test_smtp test_redis
 
 test_with_nginx:
 	@echo "== Test Nginx for $(PHP_VERSION) with USER $(USER) =="
@@ -48,3 +48,15 @@ test_smtp:
 		php \
 		/usr/local/bin/goss -g /goss/php_smtp.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
+
+test_redis:
+	@echo "== Test SMTP for $(PHP_VERSION) =="
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml down --remove-orphans
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml build php
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml up -d nginx
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml run \
+		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
+		-v $(ROOT_DIR):/goss/ \
+		client \
+		/usr/local/bin/goss -g /goss/php_redis.yaml validate --format documentation
+	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml down --remove-orphans
