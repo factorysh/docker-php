@@ -55,6 +55,15 @@ and build the image with a `build-arg` like :
 --build-arg UID=`id -u`
 ```
 
+Session
+-------
+
+Default session handler is a file.
+
+If you set `SESSION_REDIS_URL`, the will use Redis as a session handler.
+
+See https://github.com/phpredis/phpredis
+
 Entrypoint.d
 ------------
 
