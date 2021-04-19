@@ -37,6 +37,7 @@ test_telegraf:
 	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
+		--rm \
 		telegraf \
 		goss -g /goss/php_status.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
@@ -47,6 +48,7 @@ test_smtp:
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
+		--rm \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \
 		php \
@@ -55,7 +57,7 @@ test_smtp:
 
 test_redis:
 	@echo "== Test SMTP for $(PHP_VERSION) =="
-	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
+	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q -a); do docker  container kill $i && docker container rm $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml up -d nginx
