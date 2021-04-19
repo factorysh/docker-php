@@ -12,6 +12,7 @@ do_docker_compose: test_with_nginx test_with_nginx_and_traefik test_telegraf tes
 
 test_with_nginx:
 	@echo "== Test Nginx for $(PHP_VERSION) with USER $(USER) =="
+	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q -a); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose up -d nginx
@@ -23,6 +24,7 @@ test_with_nginx:
 
 test_with_nginx_and_traefik:
 	@echo "== Test Nginx & Traefik for $(PHP_VERSION) =="
+	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f traefik-compose.yml up -d nginx traefik-php
@@ -32,6 +34,7 @@ test_with_nginx_and_traefik:
 
 test_telegraf:
 	@echo "== Test Telegraf for $(PHP_VERSION) =="
+	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
 		telegraf \
@@ -40,6 +43,7 @@ test_telegraf:
 
 test_smtp:
 	@echo "== Test SMTP for $(PHP_VERSION) =="
+	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
@@ -51,6 +55,7 @@ test_smtp:
 
 test_redis:
 	@echo "== Test SMTP for $(PHP_VERSION) =="
+	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml up -d nginx
