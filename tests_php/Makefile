@@ -63,8 +63,8 @@ test_redis:
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml up -d nginx
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml run \
 		--rm \
-		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
-		-v $(ROOT_DIR)/php_redis.yaml:/goss/php_redis.yaml \
+		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss:ro \
+		-v $(ROOT_DIR)/php_redis.yaml:/goss/php_redis.yaml:ro \
 		client \
 		/usr/local/bin/goss -g /goss/php_redis.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose -f docker-compose.yml -f redis-compose.yml exec redis redis-cli KEYS "*"
