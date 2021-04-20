@@ -1,7 +1,11 @@
 ---
 
 command:
-  "rm -f /tmp/jar && curl --cookie-jar /tmp/jar http://nginx:8000/session.php?name=Bob && curl --cookie-jar /tmp/jar http://nginx:8000/session.php":
+  session:
+    exec: >
+      rm -f /tmp/jar
+      && curl --cookie-jar /tmp/jar http://nginx:8000/session.php?name=Bob
+      && curl --cookie-jar /tmp/jar http://nginx:8000/session.php
     exit-status: 0
     stdout:
       - Hello Bob
