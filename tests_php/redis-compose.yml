@@ -1,0 +1,17 @@
+---
+version: "3"
+
+services:
+  redis:
+    image: redis:5
+  php:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile.php
+      args:
+        UID: ${USER}
+        PHP_VERSION: ${PHP_VERSION}
+    links:
+      - redis
+    environment:
+      SESSION_REDIS_URL: tcp://redis:6379
