@@ -1,0 +1,3 @@
+[submodule "contrib/php-profiler-lite"]
+	path = contrib/php-profiler-lite
+	url = ../php-profiler-lite
