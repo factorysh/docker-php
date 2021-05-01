@@ -14,12 +14,7 @@ RUN set -eux \
                 php-xdebug \
                 php7.${PHP_MINOR_VERSION}-curl \
                 php7.${PHP_MINOR_VERSION}-fpm \
-                php7.${PHP_MINOR_VERSION}-gd \
-                php7.${PHP_MINOR_VERSION}-json \
-                php7.${PHP_MINOR_VERSION}-mbstring \
-                php7.${PHP_MINOR_VERSION}-mysql \
                 php7.${PHP_MINOR_VERSION}-redis \
-                php7.${PHP_MINOR_VERSION}-xml \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  phpdismod \

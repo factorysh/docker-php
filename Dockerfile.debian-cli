@@ -17,8 +17,10 @@ RUN set -eux \
                     php7.${PHP_MINOR_VERSION}-cli \
                     php7.${PHP_MINOR_VERSION}-curl \
                     php7.${PHP_MINOR_VERSION}-gd \
+		    php7.${PHP_MINOR_VERSION}-json \
                     php7.${PHP_MINOR_VERSION}-mbstring \
                     php7.${PHP_MINOR_VERSION}-mysql \
+                    php7.${PHP_MINOR_VERSION}-tideways \
                     php7.${PHP_MINOR_VERSION}-xml \
                     php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
