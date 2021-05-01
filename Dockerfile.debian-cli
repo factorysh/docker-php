@@ -26,17 +26,21 @@ RUN set -eux \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
     &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log
+    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log \
+    &&  mkdir -p /opt/php-profiler-lite/
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
 COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/php.ini
 COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
+COPY contrib/php-profiler-lite/profiler_lite.php /opt/php-profiler-lite/
+
 
 # Entrypoint.d
 RUN mkdir /entrypoint.d
 COPY entrypoint.d.sh /usr/local/bin/
 COPY entrypoint.d /entrypoint.d/
+COPY contrib/php-profiler-lite/02-php_profiler_lite.sh /entrypoint.d/
 
 ENTRYPOINT ["entrypoint_cli.sh"]
 CMD ["php"]
