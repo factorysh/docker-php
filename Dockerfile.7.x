@@ -17,6 +17,7 @@ RUN set -eux \
                       php7.${PHP_MINOR_VERSION}-intl \
                       php7.${PHP_MINOR_VERSION}-json \
                       php7.${PHP_MINOR_VERSION}-readline \
+                      php7.${PHP_MINOR_VERSION}-redis \
                       php7.${PHP_MINOR_VERSION}-zip \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \

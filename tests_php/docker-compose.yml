@@ -28,7 +28,7 @@ services:
       - 8000
 
   client:
-    image: bearstech/debian:stretch
+    image: bearstech/debian:buster
     volumes:
       - ./bin/goss:/usr/local/bin/goss
       - ./compose:/goss

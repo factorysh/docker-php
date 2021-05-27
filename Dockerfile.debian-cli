@@ -51,4 +51,4 @@ LABEL \
     org.opencontainers.image.revision=${GIT_VERSION} \
     org.opencontainers.image.created=${BUILD_DATE} \
     org.opencontainers.image.url=https://github.com/factorysh/docker-php \
-    org.opencontainers.image.source=https://github.com/factorysh/docker-php/blob/${GIT_VERSION}/Dockerfile.7.0-cli
+    org.opencontainers.image.source=https://github.com/factorysh/docker-php/blob/${GIT_VERSION}/Dockerfile.debian-cli

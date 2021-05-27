@@ -14,3 +14,7 @@ http:
       - />memory_limit<\/td><td.*>128M<\/td><td.*>128M<\/td>/
       - />short_open_tag<\/td><td.*>Off<\/td><td.*>Off<\/td>/
       - />sendmail_path<\/td><td.*>/usr/local/bin/sendmail&nbsp;-t<\/td><td.*>/usr/local/bin/sendmail&nbsp;-t<\/td>/
+      - />session\.cookie_httponly<\/td><td.*>(On|1)<\/td><td.*>(On|1)<\/td>/
+      - />session\.cookie_secure<\/td><td.*>(On|1)<\/td><td.*>(On|1)<\/td>/
+      - />session\.use_only_cookies<\/td><td.*>(On|1)<\/td><td.*>(On|1)<\/td>/
+      - />session\.gc_probability<\/td><td.*>1<\/td><td.*>1<\/td>/
