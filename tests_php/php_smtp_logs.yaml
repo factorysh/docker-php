@@ -8,7 +8,7 @@
 # exitcode=EX_OK
 
 command:
-  docker_version:
+  docker_smtp_logs:
     exec: docker logs test_php_smtp_logs
     exit-status: 0
     stdout:
