@@ -1,7 +1,7 @@
 PHP docker images by bearstech
 ===============================
 
-3 variants of PHP7 from Debian Stretch :
+3 variants of PHP7 from Debian :
 
 - composer: [bearstech/php-composer](https://hub.docker.com/r/bearstech/php-composer/)
 - cli: [bearstech/php-cli](https://hub.docker.com/r/bearstech/php-cli/)
@@ -18,9 +18,9 @@ Usage
 -----
 
 ```
-docker run --rm bearstech/php:7.2
-docker run --rm bearstech/php-cli:7.2
-docker run --rm bearstech/php-composer:7.2
+docker run --rm bearstech/php:7.3
+docker run --rm bearstech/php-cli:7.3
+docker run --rm bearstech/php-composer:7.3
 ```
 
 Composer
