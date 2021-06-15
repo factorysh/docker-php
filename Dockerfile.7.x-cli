@@ -19,8 +19,6 @@ RUN set -eux \
                   msmtp \
     &&  apt-get clean \
     &&  rm -rf /var/lib/apt/lists/* \
-    &&  ln -s /usr/bin/msmtp /usr/local/bin/sendmail \
-    &&  ln -sf /proc/1/fd/2 /var/log/msmtp.log \
     &&  touch /etc/msmtprc \
     &&  chmod 640 /etc/msmtprc \
     &&  curl https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php-sury.gpg \
@@ -40,6 +38,8 @@ RUN set -eux \
 
 COPY config_msmtp.sh /usr/local/bin/
 COPY entrypoint_cli.sh /usr/local/bin
+COPY sendmail /opt/sendmail
+RUN  ln -sf /opt/sendmail /usr/local/bin/sendmail
 COPY conf/php7.${PHP_MINOR_VERSION}.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/php.ini
 COPY conf/memory.ini /etc/php/7.${PHP_MINOR_VERSION}/cli/conf.d/01-memory.ini
 

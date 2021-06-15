@@ -1,0 +1,7 @@
+---
+
+
+command:
+  docker_smtp_logs:
+    exec: /goss/helpers/smtp_logs_check.sh
+    exit-status: 0

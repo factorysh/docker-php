@@ -4,6 +4,8 @@
 PHP_VERSION?=""
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 USER:=$(shell id -u)
+OS := $(shell uname | tr A-Z a-z)
+GOSS_HOST_PATH := ./bin/${OS}/goss
 SLEEP:=2
 
 all: do_docker_compose
@@ -42,18 +44,28 @@ test_telegraf:
 		goss -g /goss/php_status.yaml validate --format documentation
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 
-test_smtp:
+test_smtp: image
 	@echo "== Test SMTP for $(PHP_VERSION) =="
 	for i in $(docker container ls -f label=com.docker.compose.project=tests_php -q); do docker  container kill $i; done
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose build php
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose run \
-		--rm \
+		--name test_php_smtp_logs \
 		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
 		-v $(ROOT_DIR):/goss/ \
 		php \
 		/usr/local/bin/goss -g /goss/php_smtp.yaml validate --format documentation
+	docker run --rm \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v $(ROOT_DIR)/bin/goss:/usr/local/bin/goss \
+		-v $(ROOT_DIR):/goss/ \
+		-w /goss \
+		docker \
+		bash -c "docker logs test_php_smtp_logs && goss -g php_smtp_logs.yaml validate --format documentation"
 	PHP_VERSION=$(PHP_VERSION) USER=$(USER) docker-compose down --remove-orphans
+
+image:
+	docker build -t docker -f Dockerfile.docker .
 
 test_redis:
 	@echo "== Test SMTP for $(PHP_VERSION) =="
