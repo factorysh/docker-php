@@ -9,10 +9,7 @@
 # exitcode=EX_OK
 
 TEST_LINE="host=mails tls=off auth=on user=test from=test@example.com"
-FILE="/tmp/smtp_logs_test"
-CONTAINER_NAME="test_php_smtp_logs"
-
-docker logs "$CONTAINER_NAME" > "$FILE"
+FILE="/goss/smtp_logs_output"
 
 if grep "$TEST_LINE" "$FILE" ; then
 	exit 0
