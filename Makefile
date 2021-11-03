@@ -400,6 +400,31 @@ test-composer-7.3: tests_php/bin/goss_${GOSS_VERSION}.done
 		bearstech/php-composer:7.3 \
 		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_3.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
+test-7.4: tests_php/bin/goss_${GOSS_VERSION}.done
+	@docker run --rm -t \
+		-v `pwd`/tests_php/bin/linux/${GOSS_VERSION}/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
+		-w /goss \
+		--entrypoint "" \
+		bearstech/php:7.4 \
+		goss -g php-dev.yaml --vars vars/7_4.yaml validate --max-concurrent 4 --format documentation
+
+test-cli-7.4: tests_php/bin/goss_${GOSS_VERSION}.done
+	@docker run --rm -t \
+		-v `pwd`/tests_php/bin/linux/${GOSS_VERSION}/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
+		-w /goss \
+		bearstech/php-cli:7.4 \
+		goss -g php-dev.yaml --vars vars/7_4.yaml validate --max-concurrent 4 --format documentation
+
+test-composer-7.4: tests_php/bin/goss_${GOSS_VERSION}.done
+	@docker run --rm -t \
+		-v `pwd`/tests_php/bin/linux/${GOSS_VERSION}/goss:/usr/local/bin/goss \
+		-v `pwd`/tests_php:/goss \
+		-w /goss \
+		bearstech/php-composer:7.4 \
+		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_4.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
+
 test-html-7.0: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
 	make -C tests_php do_docker_compose PHP_VERSION=7.0
 
@@ -409,10 +434,10 @@ test-html-7.1: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_
 test-html-7.2: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
 	make -C tests_php do_docker_compose PHP_VERSION=7.2
 
-test-html-7.3: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
-	make -C tests_php do_docker_compose PHP_VERSION=7.3
+test-html-7.4: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
+	make -C tests_php do_docker_compose PHP_VERSION=7.4
 
-test-html: test-html-7.0 test-html-7.1 test-html-7.2 test-html-7.3
+test-html: test-html-7.0 test-html-7.1 test-html-7.2 test-html-7.3 test-html-7.4
 
 tests-7.0: test-7.0 test-cli-7.0 test-composer-7.0 test-html-7.0
 
@@ -422,6 +447,8 @@ tests-7.2: test-7.2 test-cli-7.2 test-composer-7.2 test-html-7.2
 
 tests-7.3: test-7.3 test-cli-7.3 test-composer-7.3 test-html-7.3
 
+tests-7.4: test-7.4 test-cli-7.4 test-composer-7.4 test-html-7.4
+
 down:
 
-tests: tests-7.0 tests-7.1 tests-7.2 tests-7.3
+tests: tests-7.0 tests-7.1 tests-7.2 tests-7.3 tests-7.4
