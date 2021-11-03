@@ -434,6 +434,9 @@ test-html-7.1: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_
 test-html-7.2: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
 	make -C tests_php do_docker_compose PHP_VERSION=7.2
 
+test-html-7.3: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
+	make -C tests_php do_docker_compose PHP_VERSION=7.3
+
 test-html-7.4: tests_php/bin/goss_${GOSS_VERSION}.done tests_php/bin/${OS}/goss_${GOSS_VERSION}.done
 	make -C tests_php do_docker_compose PHP_VERSION=7.4
 
