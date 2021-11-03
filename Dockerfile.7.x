@@ -8,6 +8,7 @@ ENV PHP_VERSION=7.${PHP_MINOR_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG HTTP_PROXY=""
 RUN set -eux \
     &&  export http_proxy=${HTTP_PROXY} \
     && apt-get update \

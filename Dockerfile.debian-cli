@@ -7,6 +7,7 @@ ARG PHP_VERSION
 LABEL php.version=${PHP_VERSION}
 
 ARG PHP_MINOR_VERSION
+ARG HTTP_PROXY=""
 RUN set -eux \
     &&  export http_proxy=${HTTP_PROXY} \
     &&  apt-get update \
