@@ -8,6 +8,7 @@ ENV PHP_VERSION=7.${PHP_MINOR_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ARG HTTP_PROXY=""
 RUN set -eux \
     &&  export http_proxy=${HTTP_PROXY} \
     && apt-get update \
@@ -65,7 +66,7 @@ ARG GIT_DATE
 ARG BUILD_DATE
 
 LABEL \
-    com.bearstech.image.revision_date=${GIT_DATE} \
+    com.bearstech.image.revision.date=${GIT_DATE} \
     org.opencontainers.image.authors=Bearstech \
     org.opencontainers.image.revision=${GIT_VERSION} \
     org.opencontainers.image.created=${BUILD_DATE} \
