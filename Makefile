@@ -255,7 +255,7 @@ push:
 	docker push bearstech/php-composer:7.1
 	docker push bearstech/php-composer:7.2
 	docker push bearstech/php-composer:7.3
-	docker push bearstech/php-composer:7.3
+	docker push bearstech/php-composer:7.4
 	docker push bearstech/php-composer:latest
 
 remove_image:
