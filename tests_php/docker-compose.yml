@@ -13,6 +13,7 @@ services:
     links:
       - mails
     environment:
+      MEMORYLIMIT: 64M
       MAILS_TOKEN: password
       MAILS_PORT: 1025
       MAILS_DOMAIN: example.com
