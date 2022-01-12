@@ -46,15 +46,15 @@ RUN set -eux \
     &&  touch /etc/msmtprc \
     &&  chmod 666 /etc/msmtprc
 
+LABEL sh.factory.probe.fpm.path=/__status
+
+EXPOSE 9000
+
 COPY entrypoint.sh /usr/local/bin/
 
 # Entrypoint.d
 COPY entrypoint.d.sh /usr/local/bin/
 COPY entrypoint.d /entrypoint.d/
-
-LABEL sh.factory.probe.fpm.path=/__status
-
-EXPOSE 9000
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["dumb-init", "/usr/sbin/php-fpm"]
