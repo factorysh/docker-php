@@ -35,6 +35,9 @@ if($workers == 'auto') {
 	if ($workers > ($procs * 2)) {
 		$workers = $procs * 2;
 	}
+	if ($workers < 1) {
+		$workers = 1;
+	}
 }
 
 print $workers;
