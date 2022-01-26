@@ -51,6 +51,7 @@ LABEL sh.factory.probe.fpm.path=/__status
 EXPOSE 9000
 
 COPY entrypoint.sh /usr/local/bin/
+COPY workers.php /usr/local/bin/
 
 # Entrypoint.d
 COPY entrypoint.d.sh /usr/local/bin/
