@@ -24,13 +24,7 @@ if($workers == 'auto') {
 			$procs++;
 		}
 	}
-	$f = file_get_contents("/proc/meminfo");
-	foreach (explode("\n", $f) as $line) {
-		if (strstr($line, 'MemTotal:')) {
-			preg_match('/\w+:\s+(\d+) (\w)B/', $line, $matches);
-			$memory = $matches[1] * $units[$matches[2]];
-		}
-	}
+	$memory = file_get_contents("/sys/fs/cgroup/memory/memory.limit_in_bytes");
 	$workers = floor($memory / $ml);
 	// 2 is max worker per cpu
 	if ($workers > ($procs * 2)) {
