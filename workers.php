@@ -18,10 +18,15 @@ if ($workers == '' ) {
 }
 if($workers == 'auto') {
 	$procs = 0;
-	$f = file_get_contents("/proc/cpuinfo");
-	foreach (explode("\n", $f) as $line) {
-		if (strstr($line, 'processor')) {
-			$procs++;
+	$f = file_get_contents("/sys/fs/cgroup/cpu/cpu.cfs_quota_us");
+	if ($f != "-1") {
+		$procs = $f / 100000;
+	} else {
+		$f = file_get_contents("/proc/cpuinfo");
+		foreach (explode("\n", $f) as $line) {
+			if (strstr($line, 'processor')) {
+				$procs++;
+			}
 		}
 	}
 	$memory = file_get_contents("/sys/fs/cgroup/memory/memory.limit_in_bytes");
