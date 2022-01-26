@@ -18,7 +18,7 @@ if ($workers == '' ) {
 }
 if($workers == 'auto') {
 	$procs = 0;
-	$f = file_get_contents("/sys/fs/cgroup/cpu/cpu.cfs_quota_us");
+	$f = trim(file_get_contents("/sys/fs/cgroup/cpu/cpu.cfs_quota_us"));
 	if ($f != "-1") {
 		$procs = $f / 100000;
 	} else {
@@ -29,7 +29,7 @@ if($workers == 'auto') {
 			}
 		}
 	}
-	$memory = file_get_contents("/sys/fs/cgroup/memory/memory.limit_in_bytes");
+	$memory = trim(file_get_contents("/sys/fs/cgroup/memory/memory.limit_in_bytes"));
 	$workers = floor($memory / $ml);
 	// 2 is max worker per cpu
 	if ($workers > ($procs * 2)) {
