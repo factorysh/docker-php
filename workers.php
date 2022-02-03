@@ -16,7 +16,19 @@ $workers = getenv('WORKERS');
 if ($workers == '' ) {
 	$workers = 5;
 }
+
+$max_spare_servers = getenv('MAX_SPARE_SERVERS');
+if($max_spare_servers == '') {
+	$max_spare_servers = 3;
+}
+
+$start_servers = getenv('START_SERVERS');
+if($start_servers == '') {
+	$start_servers = 2;
+}
+
 if(strtolower($workers) == 'auto') {
+
 	//which version for cgroup
 	$cgroupv2 = file_exists("/sys/fs/cgroup/cgroup.controllers");
 	$cg_mem_file_path = $cgroupv2 ? "/sys/fs/cgroup/memory.max" : 
@@ -51,6 +63,7 @@ if(strtolower($workers) == 'auto') {
 			}
 		}
 	}
+
 	$workers = floor($memory / $ml);
 	// 2 is max worker per cpu
 	if ($workers > ($procs * 2)) {
@@ -59,25 +72,13 @@ if(strtolower($workers) == 'auto') {
 	if ($workers < 1) {
 		$workers = 1;
 	}
-}
 
-print $workers;
-
-/*if(isset($argv[1])) {
-	switch ($argv[1]) {
-		case 'workers':
-		default:
-			print $workers;
-			break;
-		case 'min_spare_servers':
-			print $procs;
-			break;
-		case 'max_spare_servers':
-			print $procs * 2;
-			break;
+	//workers should be greater than max_spare_servers
+	if($workers < $max_spare_servers) {
+		$max_spare_servers = 1;
+		$start_servers = 1;
 	}
 }
-else {
-	print $workers;
-}*/
+
+print $workers." ".$max_spare_servers." ".$start_servers;
 ?>
