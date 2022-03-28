@@ -1,4 +1,4 @@
-FROM bearstech/debian:stretch
+FROM bearstech/debian:buster
 
 ARG PHP_MINOR_VERSION
 

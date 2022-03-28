@@ -10,8 +10,10 @@ GOSS_VERSION := 0.3.16
 GOSS_GUEST_PATH := tests_php/bin/linux/${GOSS_VERSION}/goss
 GOSS_HOST_PATH := tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
-COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | ruby -e 'puts /<strong>([0-9.]+)/.match(ARGF.read)[1]')
-COMPOSER1_VERSION = $(shell curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | ruby -e 'puts /\/([0-9.]+)\//.match(ARGF.read)[1]')
+COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | grep -o '<strong>.*</strong>' | sed "s/<[^>]\+>//g")
+#curl -s https://getcomposer.org/ | grep '<p class="latest">' | ruby -e 'puts /<strong>([0-9.]+)/.match(ARGF.read)[1]')
+COMPOSER1_VERSION = $(shell curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | grep -m 1 -o '/download/.*/'  | sed "s/[download\/]\+//g")
+#curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | ruby -e 'puts /\/([0-9.]+)\//.match(ARGF.read)[1]')
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 SHA256_COMPOSER1_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
