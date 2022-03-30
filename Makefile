@@ -11,17 +11,15 @@ GOSS_GUEST_PATH := tests_php/bin/linux/${GOSS_VERSION}/goss
 GOSS_HOST_PATH := tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
 COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | grep -o '<strong>.*</strong>' | sed "s/<[^>]\+>//g")
-#curl -s https://getcomposer.org/ | grep '<p class="latest">' | ruby -e 'puts /<strong>([0-9.]+)/.match(ARGF.read)[1]')
 COMPOSER1_VERSION = $(shell curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | grep -m 1 -o '/download/.*/'  | sed "s/[download\/]\+//g")
-#curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | ruby -e 'puts /\/([0-9.]+)\//.match(ARGF.read)[1]')
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 SHA256_COMPOSER1_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 
 SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packages -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages)
-VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
-VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
-VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+#VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+#VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+#VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
 VERSION_7_0=$(shell curl -sL https://packages.debian.org/fr/stretch/php | grep '<h1>.*php .1:' | sed -E 's/.*\(1:([0-9.+]+)\).*/\1/')
 VERSION_7_3=$(shell curl -sL https://packages.debian.org/fr/buster/php | grep '<h1>.*php .2:' | sed -E 's/.*\(2:([0-9.+]+)\).*/\1/')
 VERSION_7_4=$(shell curl -sL https://packages.debian.org/fr/bullseye/php | grep '<h1>.*php .2:' | sed -E 's/.*\(2:([0-9.+]+)\).*/\1/')
@@ -33,8 +31,8 @@ variables:
 	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
 	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
 	@echo "${VERSION_7_0}"
-	@echo "${VERSION_7_1}"
-	@echo "${VERSION_7_2}"
+	#@echo "${VERSION_7_1}"
+	#@echo "${VERSION_7_2}"
 	@echo "${VERSION_7_3}"
 	@echo "${VERSION_7_4}"
 
@@ -50,7 +48,8 @@ pull:
 	docker pull bearstech/debian:buster
 	docker pull bearstech/debian:bullseye
 
-build: 7.0 7.1 7.2 7.3 7.4
+#remove images with Sury dependance : 7.1 7.2
+build: 7.0 7.3 7.4
 
 7.4 : 7.4-fpm 7.4-composer 7.4-cli
 
