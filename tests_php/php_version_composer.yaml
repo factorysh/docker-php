@@ -4,7 +4,7 @@ command:
     composer -V:
         exit-status: 0
         stdout:
-            - "/Composer version {{ .Vars.composer_version }}/"
+            - "/(Composer version|Composer) {{ .Vars.composer_version }}/"
         stderr: []
     composer1 -V:
         exit-status: 0
