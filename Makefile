@@ -455,4 +455,5 @@ tests-7.4: test-7.4 test-cli-7.4 test-composer-7.4 test-html-7.4
 
 down:
 
-tests: tests-7.0 tests-7.1 tests-7.2 tests-7.3 tests-7.4
+#disable tests for unmaintened images tests-7.1 tests-7.2
+tests: tests-7.0 tests-7.3 tests-7.4
