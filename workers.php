@@ -81,4 +81,5 @@ if(strtolower($workers) == 'auto') {
 }
 
 print $workers." ".$max_spare_servers." ".$start_servers;
+
 ?>
