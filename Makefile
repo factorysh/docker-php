@@ -27,6 +27,7 @@ VERSION_7_4=$(shell curl -sL https://packages.debian.org/fr/bullseye/php | grep 
 all: pull build
 
 variables:
+	@echo "Composer_1: ${COMPOSER1_VERSION}"
 	@echo "Composer: ${COMPOSER_VERSION}"
 	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
 	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
@@ -92,8 +93,8 @@ build: 7.0 7.3 7.4
 		-f Dockerfile.7.x-composer \
 		--build-arg PHP_MINOR_VERSION=0 \
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
-		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
-		--build-arg COMPOSER_VERSION=$(COMPOSER_VERSION) \
+		--build-arg SHA256_COMPOSER_BIN="dc9dfdd2ffb1180d785b5a3d581c946ec6da135f55c9959f21b96fea7d7fb12d" \
+		--build-arg COMPOSER_VERSION="2.2.10" \
 		--build-arg SHA256_COMPOSER1_BIN=$(SHA256_COMPOSER1_BIN) \
 		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
