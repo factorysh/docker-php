@@ -10,16 +10,16 @@ GOSS_VERSION := 0.3.16
 GOSS_GUEST_PATH := tests_php/bin/linux/${GOSS_VERSION}/goss
 GOSS_HOST_PATH := tests_php/bin/${OS}/${GOSS_VERSION}/goss
 
-COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | ruby -e 'puts /<strong>([0-9.]+)/.match(ARGF.read)[1]')
-COMPOSER1_VERSION = $(shell curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | ruby -e 'puts /\/([0-9.]+)\//.match(ARGF.read)[1]')
+COMPOSER_VERSION = $(shell curl -s https://getcomposer.org/ | grep '<p class="latest">' | grep -o '<strong>.*</strong>' | sed "s/<[^>]\+>//g")
+COMPOSER1_VERSION = $(shell curl -s https://getcomposer.org/download/ | grep -e 'href="/download/1\..*/composer.phar"' | grep -m 1 -o '/download/.*/'  | sed "s/[download\/]\+//g")
 SHA384_COMPOSER_SETUP = $(shell curl -s https://composer.github.io/installer.sha384sum | cut -f 1 -d ' ')
 SHA256_COMPOSER_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 SHA256_COMPOSER1_BIN = $(shell curl -s https://getcomposer.org/download/${COMPOSER1_VERSION}/composer.phar.sha256sum | cut -f 1 -d ' ')
 
 SURY_VERSIONS=$(shell mkdir -p /tmp/docker-php && curl -o /tmp/docker-php/Packages -s https://packages.sury.org/php/dists/stretch/main/binary-amd64/Packages)
-VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
-VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
-VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+#VERSION_7_1=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.1-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+#VERSION_7_2=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.2-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
+#VERSION_7_3=$(shell echo "${SURY_VERSIONS}" > /dev/null && grep -C3 "Package: php7.3-fpm$$" /tmp/docker-php/Packages | grep Version | cut -f 2 -d ' ')
 VERSION_7_0=$(shell curl -sL https://packages.debian.org/fr/stretch/php | grep '<h1>.*php .1:' | sed -E 's/.*\(1:([0-9.+]+)\).*/\1/')
 VERSION_7_3=$(shell curl -sL https://packages.debian.org/fr/buster/php | grep '<h1>.*php .2:' | sed -E 's/.*\(2:([0-9.+]+)\).*/\1/')
 VERSION_7_4=$(shell curl -sL https://packages.debian.org/fr/bullseye/php | grep '<h1>.*php .2:' | sed -E 's/.*\(2:([0-9.+]+)\).*/\1/')
@@ -27,12 +27,13 @@ VERSION_7_4=$(shell curl -sL https://packages.debian.org/fr/bullseye/php | grep 
 all: pull build
 
 variables:
+	@echo "Composer_1: ${COMPOSER1_VERSION}"
 	@echo "Composer: ${COMPOSER_VERSION}"
 	@echo "Composer setup hash: ${SHA384_COMPOSER_SETUP}"
 	@echo "Commposer bin hash: ${SHA256_COMPOSER_BIN}"
 	@echo "${VERSION_7_0}"
-	@echo "${VERSION_7_1}"
-	@echo "${VERSION_7_2}"
+	#@echo "${VERSION_7_1}"
+	#@echo "${VERSION_7_2}"
 	@echo "${VERSION_7_3}"
 	@echo "${VERSION_7_4}"
 
@@ -48,7 +49,8 @@ pull:
 	docker pull bearstech/debian:buster
 	docker pull bearstech/debian:bullseye
 
-build: 7.0 7.1 7.2 7.3 7.4
+#remove images with Sury dependance : 7.1 7.2
+build: 7.0 7.3 7.4
 
 7.4 : 7.4-fpm 7.4-composer 7.4-cli
 
@@ -91,8 +93,8 @@ build: 7.0 7.1 7.2 7.3 7.4
 		-f Dockerfile.7.x-composer \
 		--build-arg PHP_MINOR_VERSION=0 \
 		--build-arg SHA384_COMPOSER_SETUP=$(SHA384_COMPOSER_SETUP) \
-		--build-arg SHA256_COMPOSER_BIN=$(SHA256_COMPOSER_BIN) \
-		--build-arg COMPOSER_VERSION=$(COMPOSER_VERSION) \
+		--build-arg SHA256_COMPOSER_BIN="dc9dfdd2ffb1180d785b5a3d581c946ec6da135f55c9959f21b96fea7d7fb12d" \
+		--build-arg COMPOSER_VERSION="2.2.10" \
 		--build-arg SHA256_COMPOSER1_BIN=$(SHA256_COMPOSER1_BIN) \
 		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
@@ -454,4 +456,5 @@ tests-7.4: test-7.4 test-cli-7.4 test-composer-7.4 test-html-7.4
 
 down:
 
-tests: tests-7.0 tests-7.1 tests-7.2 tests-7.3 tests-7.4
+#disable tests for unmaintened images tests-7.1 tests-7.2
+tests: tests-7.0 tests-7.3 tests-7.4
