@@ -248,13 +248,8 @@ push-%:
 
 push: push-7.0 push-7.3 push-7.4 push-latest
 
-remove_image-%:
-	$(eval version=$(shell echo $@ | cut -d- -f2))
-	docker rmi bearstech/php:$(version)
-	docker rmi bearstech/php-cli:$(version)
-	docker rmi bearstech/php-composer:$(version)
-
-remove_image: remove_image-7.0 remove_image-7.3 remove_image-7.4 remove_image-latest
+remove_image:
+	docker rmi -f $(shell docker images -q --filter="reference=bearstech/php*") || true	
 
 clean:
 	rm -rf bin
