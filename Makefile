@@ -240,192 +240,69 @@ build: 7.0 7.3 7.4
 		--build-arg COMPOSER1_VERSION=$(COMPOSER1_VERSION) \
 		.
 
-push:
-	docker push bearstech/php:7.0
-	docker push bearstech/php:7.1
-	docker push bearstech/php:7.2
-	docker push bearstech/php:7.3
-	docker push bearstech/php:7.4
-	docker push bearstech/php:latest
-	docker push bearstech/php-cli:7.0
-	docker push bearstech/php-cli:7.1
-	docker push bearstech/php-cli:7.2
-	docker push bearstech/php-cli:7.3
-	docker push bearstech/php-cli:7.4
-	docker push bearstech/php-cli:latest
-	docker push bearstech/php-composer:7.0
-	docker push bearstech/php-composer:7.1
-	docker push bearstech/php-composer:7.2
-	docker push bearstech/php-composer:7.3
-	docker push bearstech/php-composer:7.4
-	docker push bearstech/php-composer:latest
+push-%:
+	$(eval version=$(shell echo $@ | cut -d- -f2))
+	docker push bearstech/php:$(version)
+	docker push bearstech/php-cli:$(version)
+	docker push bearstech/php-composer:$(version)
 
-remove_image:
-	docker rmi bearstech/php:7.0
-	docker rmi bearstech/php:7.1
-	docker rmi bearstech/php:7.2
-	docker rmi bearstech/php:latest
-	docker rmi bearstech/php-cli:7.0
-	docker rmi bearstech/php-cli:7.1
-	docker rmi bearstech/php-cli:7.2
-	docker rmi bearstech/php-cli:latest
-	docker rmi bearstech/php-composer:7.0
-	docker rmi bearstech/php-composer:7.1
-	docker rmi bearstech/php-composer:7.2
-	docker rmi bearstech/php-composer:7.4
-	docker rmi bearstech/php-composer:latest
+push: push-7.0 push-7.3 push-7.4 push-latest
+
+remove_image-%:
+	$(eval version=$(shell echo $@ | cut -d- -f2))
+	docker rmi bearstech/php:$(version)
+	docker rmi bearstech/php-cli:$(version)
+	docker rmi bearstech/php-composer:$(version)
+
+remove_image: remove_image-7.0 remove_image-7.3 remove_image-7.4 remove_image-latest
 
 clean:
 	rm -rf bin
-
 
 tests_php/bin/goss:
 	mkdir -p tests_php/bin
 	curl -o tests_php/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
 	chmod +x tests_php/bin/goss
- 
 
 tests_php/tools: tests_php/bin/goss
 
-test-7.0: tests_php/bin/goss
+test-%: tests_php/bin/goss
+	$(eval version=$(shell echo $@ | cut -d- -f2))
+	$(eval major=$(shell echo $(version) | cut -d. -f1))
+	$(eval minor=$(shell echo $(version) | cut -d. -f2))
 	@docker run --rm -t \
 		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests_php:/goss \
 		-w /goss \
 		--entrypoint "" \
-		bearstech/php:7.0 \
-		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
+		bearstech/php:$(version) \
+		goss -g php-dev.yaml --vars vars/$(major)_$(minor).yaml validate --max-concurrent 4 --format documentation
 
-test-cli-7.0: tests_php/bin/goss
+test-cli-%: tests_php/bin/goss
+	$(eval version=$(shell echo $@ | cut -d- -f3))
+	$(eval major=$(shell echo $(version) | cut -d. -f1))
+	$(eval minor=$(shell echo $(version) | cut -d. -f2))	
 	@docker run --rm -t \
 		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests_php:/goss \
 		-w /goss \
-		bearstech/php-cli:7.0 \
-		goss -g php-dev.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation
+		bearstech/php-cli:$(version) \
+		goss -g php-dev.yaml --vars vars/$(major)_$(minor).yaml validate --max-concurrent 4 --format documentation
 
-test-composer-7.0: tests_php/bin/goss
+test-composer-%: tests_php/bin/goss
+	$(eval version=$(shell echo $@ | cut -d- -f3))
+	$(eval major=$(shell echo $(version) | cut -d. -f1))
+	$(eval minor=$(shell echo $(version) | cut -d. -f2))	
 	@docker run --rm -t \
 		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
 		-v `pwd`/tests_php:/goss \
 		-w /goss \
-		bearstech/php-composer:7.0 \
-		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_0.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
+		bearstech/php-composer:$(version) \
+		/bin/bash -c "goss -g php-composer.yaml --vars vars/$(major)_$(minor).yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
 
-test-7.1: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		--entrypoint "" \
-		bearstech/php:7.1 \
-		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
-
-test-cli-7.1: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-cli:7.1 \
-		goss -g php-dev.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation
-
-test-composer-7.1: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-composer:7.1 \
-		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_1.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
-
-test-7.2: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		--entrypoint "" \
-		bearstech/php:7.2 \
-		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
-
-test-cli-7.2: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-cli:7.2 \
-		goss -g php-dev.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation
-
-test-composer-7.2: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-composer:7.2 \
-		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_2.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
-
-test-7.3: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		--entrypoint "" \
-		bearstech/php:7.3 \
-		goss -g php-dev.yaml --vars vars/7_3.yaml validate --max-concurrent 4 --format documentation
-
-test-cli-7.3: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-cli:7.3 \
-		goss -g php-dev.yaml --vars vars/7_3.yaml validate --max-concurrent 4 --format documentation
-
-test-composer-7.3: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-composer:7.3 \
-		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_3.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
-
-test-7.4: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		--entrypoint "" \
-		bearstech/php:7.4 \
-		goss -g php-dev.yaml --vars vars/7_4.yaml validate --max-concurrent 4 --format documentation
-
-test-cli-7.4: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-cli:7.4 \
-		goss -g php-dev.yaml --vars vars/7_4.yaml validate --max-concurrent 4 --format documentation
-
-test-composer-7.4: tests_php/bin/goss
-	@docker run --rm -t \
-		-v `pwd`/tests_php/bin/goss:/usr/local/bin/goss \
-		-v `pwd`/tests_php:/goss \
-		-w /goss \
-		bearstech/php-composer:7.4 \
-		/bin/bash -c "goss -g php-composer.yaml --vars vars/7_4.yaml validate --max-concurrent 4 --format documentation && goss -g php_test_composer.yaml validate --format documentation"
-
-test-html-7.0: tests_php/bin/goss
-	make -C tests_php do_docker_compose PHP_VERSION=7.0
-
-test-html-7.1: tests_php/bin/goss
-	make -C tests_php do_docker_compose PHP_VERSION=7.1
-
-test-html-7.2: tests_php/bin/goss
-	make -C tests_php do_docker_compose PHP_VERSION=7.2
-
-test-html-7.3: tests_php/bin/goss
-	make -C tests_php do_docker_compose PHP_VERSION=7.3
-
-test-html-7.4: tests_php/bin/goss
-	make -C tests_php do_docker_compose PHP_VERSION=7.4
+test-html-%: tests_php/bin/goss
+	$(eval version=$(shell echo $@ | cut -d- -f3))
+	make -C tests_php do_docker_compose PHP_VERSION=$(version)
 
 test-html: test-html-7.0 test-html-7.1 test-html-7.2 test-html-7.3 test-html-7.4
 
