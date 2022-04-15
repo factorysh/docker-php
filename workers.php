@@ -14,7 +14,8 @@ $ml = substr($memoryLimit, 0, -1) * $units[substr($memoryLimit, -1)];
 
 $workers = getenv('WORKERS');
 if ($workers == '' ) {
-	$workers = 5;
+	// default mode (see https://gitlab.bearstech.com/bearstech/dockerfiles/-/issues/180#note_32085)
+	$workers = 'auto';
 }
 
 $max_spare_servers = getenv('MAX_SPARE_SERVERS');
